@@ -9,6 +9,44 @@ const SWATCH_SIZE = 300;
 //
 
 let animations = [
+  
+    //================================================
+  // TODO: Copy and paste this example to make your own animations
+
+  {
+    title: "Ktes in class animation",
+    description: "a red dot moving <p>another paragraph</p>",
+    isActive: true, // Set this to "true" to show this animation
+
+    setup(p) {
+
+    },
+    draw(p, t) {
+      // Draw something here!
+      p.background(210, 80, 80, .02)
+      
+      let sunHue = 50
+      // Set the color!
+      p.fill(sunHue, 100, 50)
+      p.stroke(sunHue, 100, 90)
+      
+      p.push()
+      p.translate(80, 30)
+      p.circle(0, 0, 60)
+      p.fill(sunHue, 100, 80)
+      p.circle(0, 0, 30)
+      
+      let count = 100
+      let theta = Math.PI*2/count
+      for (var i = 0; i < count; i++) {
+        p.rotate(theta)
+        let lineLength = 200*p.noise(i*.1, t*3)
+        p.line(0, 0, lineLength, 0)
+      }
+      p.pop()
+    },
+  },
+  
   //================================================
   // TODO: Copy and paste this example to make your own animations
 
@@ -91,7 +129,7 @@ let animations = [
     title: "Movement",
     description:
       "How can you control movement? We can time to drive the animation, using functions like the sine wave and perlin noise",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       // Draw this once at the beginning
@@ -109,7 +147,7 @@ let animations = [
       // Perlin noise
       // A way to get smooth motion, but not predictable
       let x = p.width * p.noise(t)
-      let y = p.height * p.noise(t)
+      let y = p.height * p.noise(t + 100)
       let r = 100
 
       p.fill(100);
