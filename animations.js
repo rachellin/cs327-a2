@@ -30,7 +30,7 @@ let animations = [
   //================================================
   // An example
   {
-    title: "splatter",
+    title: "Shape and Color",
     description:
       "Basic drawing and randomness. See how using the full spectrum, a partial spectrum, or two different spectrums, or driving it based on time, can affect how the art looks",
     isActive: true,
@@ -90,10 +90,10 @@ let animations = [
   // An example
 
   {
-    title: "movement",
+    title: "Movement",
     description:
       "How can you control movement? We can time to drive the animation, using functions like the sine wave and perlin noise",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       // Draw this once at the beginning
@@ -125,7 +125,7 @@ let animations = [
     title: "polar coordinates",
     description:
       "By using polar coordinates, you can get interesting radial patterns. Look at the difference between sine, noise, and constant radiuses",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       p.background(0, 0, 0, 0);
@@ -161,7 +161,7 @@ let animations = [
   {
     title: "For-loops",
     description: "Use a loop to create <i>many</i> of something",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       this.loopTime = 5;
@@ -215,7 +215,7 @@ let animations = [
     title: "Transformation",
     description:
       "Push/pop transformations let you rotate, scale, and more! Watch the <a href='https://www.youtube.com/watch?v=o9sgjuh-CBM'>Coding Train explanation</a> for more",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       this.loopTime = 5;
@@ -344,7 +344,7 @@ let animations = [
     title: "Nested For-loops with noise",
     description:
       "You can use a nested for-loop to make a grid.  This goes well with perlin noise, which can take three parameters (imagine a 2d slice of a 3d noise cube)",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       this.loopTime = 5;
@@ -416,12 +416,16 @@ let animations = [
       let y = p.height * p.noise(t*.3 + 100)
       let theta = 30*p.noise(t*.1)
      
+      // Big centered text
       p.textSize(50)
+      p.textAlign(p.CENTER)
+      
+      // White text with a black outline
       p.fill(100);
       p.stroke(0)
+      
       p.push()
       p.translate(x, y)
-      p.textAlign(p.CENTER)
       
       p.rotate(theta)
       p.text("Emoji! 💜", 0, 0);
