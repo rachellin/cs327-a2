@@ -29,7 +29,7 @@ let animations = [
     title: "Shape and Color!!!",
     description:
       "Basic drawing and randomness. See how using the full spectrum, a partial spectrum, or two different spectrums, or driving it based on time, can affect how the art looks",
-    isActive: true,
+    isActive: false,
 
     /**
      * TODO: Read this!
@@ -52,6 +52,8 @@ let animations = [
     },
 
     draw(p, t) {
+      // p.background(0, 0, 0);
+      
       // Fun trick: make a semi-transparent background (opacity .02)
       //  in order to have the older parts of the drawing "fade away"
       // p.background(0, 0, 0, .02)
@@ -60,10 +62,10 @@ let animations = [
       let hue = Math.random() * 360;
 
       // Use this line instead for just blue circles
-      // let hue = Math.random()*100 + 150
+      // let hue = Math.random()*50 + 150
 
       // Ternary operator: there's a 30% chance of orange, 70% chance of green
-      // let hue = Math.random()*30 + (Math.random()<.3?20:170)
+      // let hue = (Math.random()<.3?20:170) + 30*Math.random()
 
       // Use the time
       // let hue = t*100
@@ -89,7 +91,7 @@ let animations = [
     title: "Movement",
     description:
       "How can you control movement? We can time to drive the animation, using functions like the sine wave and perlin noise",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       // Draw this once at the beginning
@@ -97,17 +99,18 @@ let animations = [
     },
 
     draw(p, t) {
+      p.background(0, 0, 0, .1);
       // The center of the swatch is at (p.width/2, p.height/2)
-      let x = p.width * (0.5 + 0.5 * Math.sin(t));
-      let y = p.height * 0.5;
+      // let x = p.width * (0.5 + 0.5 * Math.sin(t));
+      // // let y = p.height * 0.5;
       // let y = p.height * (.5 + .5 * Math.sin(10*t))
-      let r = 100;
+      // let r = 100;
 
       // Perlin noise
       // A way to get smooth motion, but not predictable
-      // let x = p.width * p.noise(t)
-      // let y = p.height * p.noise(t + 100)
-      // let r = 100
+      let x = p.width * p.noise(t)
+      let y = p.height * p.noise(t)
+      let r = 100
 
       p.fill(100);
       p.circle(x, y, r);
