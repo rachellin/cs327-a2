@@ -9,13 +9,27 @@ const SWATCH_SIZE = 300;
 //
 
 let animations = [
+  
+  
+    //================================================
+  // Copy and paste this example to 
+
+  {
+    title: "Your animation here",
+    description: "a red dot moving <p>another paragraph</p>",
+    isActive: true,
+
+    setup(p) {},
+    draw(p, t) {},
+  },
+  
   //================================================
   // An example
   {
     title: "splatter",
     description:
       "Basic drawing and randomness. See how using the full spectrum, a partial spectrum, or two different spectrums, or driving it based on time, can affect how the art looks",
-    isActive: false,
+    isActive: true,
 
     /**
      * TODO: Read this!
@@ -75,7 +89,7 @@ let animations = [
     title: "movement",
     description:
       "How can you control movement? We can time to drive the animation, using functions like the sine wave and perlin noise",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       // Draw this once at the beginning
@@ -107,7 +121,7 @@ let animations = [
     title: "polar coordinates",
     description:
       "By using polar coordinates, you can get interesting radial patterns. Look at the difference between sine, noise, and constant radiuses",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       p.background(0, 0, 0, 0);
@@ -143,7 +157,7 @@ let animations = [
   {
     title: "For-loops",
     description: "Use a loop to create <i>many</i> of something",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       this.loopTime = 5;
@@ -197,7 +211,7 @@ let animations = [
     title: "Transformation",
     description:
       "Push/pop transformations let you rotate, scale, and more! Watch the <a href='https://www.youtube.com/watch?v=o9sgjuh-CBM'>Coding Train explanation</a> for more",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       this.loopTime = 5;
@@ -243,10 +257,10 @@ let animations = [
       // Show that rectangles rotate too!
       for (let i = 0; i < count; i++) {
         p.push();
-        p.rotate(i * dTheta);
+        p.rotate(i * dTheta + t);
 
-        p.fill(0, 0, 0);
-        p.rect(0, 100, 10, 30);
+        p.fill(40, 100, 90);
+        p.rect(0, 20, 5, 20);
 
         p.pop();
       }
@@ -261,46 +275,62 @@ let animations = [
   {
     title: "Functions to reuse code",
     description:
-      "If you put your code in a function, you can call it many times",
+      "If you put your code in a function, you can call it many times. This works great if you use transformations to move or resize before calling the function",
     isActive: true,
 
+    
     setup(p) {
-      this.loopTime = 5;
-    },
-    draw(p, t) {
+      
+//       A function to draw a flower, of some hue and petal count
       function drawFlower(hue, count) {
+      
         let petalLength = 100;
         let petalWidth = 40;
         let dTheta = (2 * Math.PI) / count;
 
-        let flowerHue = (320 + t * 50) % 360;
-        p.fill(320, 100, 50);
-
+        p.noStroke()
+       
         // Draw a flower by rotating before drawing each petal
         for (let i = 0; i < count; i++) {
           p.push();
           p.rotate(i * dTheta);
 
-          p.fill(flowerHue, 100, 50);
-          p.ellipse(petalLength * 0.9, 0, petalLength, petalWidth);
+          p.fill(hue, 100, 50);
+          p.ellipse(petalLength * 0.5, 0, petalLength, petalWidth);
 
           // Petal highlight
-          p.fill(flowerHue, 100, 70);
-          p.ellipse(petalLength * 0.9, 0, petalLength * 0.6, petalWidth * 0.6);
+          p.fill(hue, 100, 70);
+          p.ellipse(petalLength * 0.4, 0, petalLength * 0.6, petalWidth * 0.6);
 
           p.pop();
         }
+        
 
         p.fill(50, 100, 50);
         p.circle(0, 0, 40);
       }
-      
-      p.push()
-      drawFlower()
-      
-      p.pop()
-      
+  
+      // Use the function to draw *many* flowers!
+      let flowerCount = 20
+      for (let i = 0; i < flowerCount; i++) {
+        p.push();
+        
+        // Draw from back to front, and make "closer" flowers bigger and lower down
+        let x = Math.random()*p.width
+        let y = i*10
+        let size = .1 + i*.03
+        
+       
+        p.translate(x, y);
+        p.scale(size)
+        let hue = (Math.random()*120 + 200)%360
+        let petalCount = Math.floor(Math.random()*10 + 5)
+        drawFlower(hue, petalCount);
+
+        p.pop();
+      }
     },
+    draw(p, t) {},
   },
 
   //================================================
@@ -322,6 +352,8 @@ let animations = [
       let count = 20;
       let tileSize = p.width / count;
       let noiseScale = 0.01;
+      
+      
 
       for (let i = 0; i < count; i++) {
         for (let j = 0; j < count; j++) {
@@ -370,15 +402,5 @@ let animations = [
     },
   },
 
-  //================================================
-  // An example
 
-  {
-    title: "Looping",
-    description: "a red dot moving <p>another paragraph</p>",
-    isActive: true,
-
-    setup(p) {},
-    draw(p, t) {},
-  },
 ];
