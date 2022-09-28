@@ -11,16 +11,20 @@ const SWATCH_SIZE = 300;
 let animations = [
   
   
-    //================================================
-  // Copy and paste this example to 
+//================================================
+  // TODO: Copy and paste this example to make your own animations
 
   {
     title: "Your animation here",
     description: "a red dot moving <p>another paragraph</p>",
-    isActive: true,
+    isActive: false, // Set this to "true" to show this animation
 
-    setup(p) {},
-    draw(p, t) {},
+    setup(p) {
+      
+    },
+    draw(p, t) {
+      // Draw something here!
+    },
   },
   
   //================================================
@@ -89,7 +93,7 @@ let animations = [
     title: "movement",
     description:
       "How can you control movement? We can time to drive the animation, using functions like the sine wave and perlin noise",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       // Draw this once at the beginning
@@ -121,7 +125,7 @@ let animations = [
     title: "polar coordinates",
     description:
       "By using polar coordinates, you can get interesting radial patterns. Look at the difference between sine, noise, and constant radiuses",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       p.background(0, 0, 0, 0);
@@ -157,7 +161,7 @@ let animations = [
   {
     title: "For-loops",
     description: "Use a loop to create <i>many</i> of something",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       this.loopTime = 5;
@@ -211,7 +215,7 @@ let animations = [
     title: "Transformation",
     description:
       "Push/pop transformations let you rotate, scale, and more! Watch the <a href='https://www.youtube.com/watch?v=o9sgjuh-CBM'>Coding Train explanation</a> for more",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       this.loopTime = 5;
@@ -370,13 +374,68 @@ let animations = [
       }
     },
   },
+  
+  
+  //================================================
+  // Make lots of emoji
+
+  {
+    title: "Emoji!",
+    description:
+      "Text is an easy way to make images",
+    isActive: true,
+
+    setup(p) {
+      
+      p.background(70);
+      let emoji = ("🤲 👐 🙌 👏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤟 🤘 👌 🤏 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 🤙 💪 🖕 ✍️ 🙏 💅 🤝 🤗 🙋‍♀️ 🙆‍♂️ 🤦‍♂️").split(" ")
+	     // How many tiles and how big are they?
+      let count = 20;
+      let tileSize = p.width / count;
+      let noiseScale = 0.01;
+      
+      
+
+      for (let i = 0; i < count; i++) {
+        for (let j = 0; j < count; j++) {
+          let x = tileSize * i;
+          let y = tileSize * j;
+          
+          
+          let randomEmoji = p.random(emoji)
+          p.text(randomEmoji, x, y)
+        }
+      }
+    },
+    draw(p, t) {
+      
+      
+      // Perlin noise
+      // A way to get smooth motion, but not predictable
+      let x = p.width * p.noise(t*.2)
+      let y = p.height * p.noise(t*.3 + 100)
+      let theta = 30*p.noise(t*.1)
+     
+      p.textSize(50)
+      p.fill(100);
+      p.stroke(0)
+      p.push()
+      p.translate(x, y)
+      p.textAlign(p.CENTER)
+      
+      p.rotate(theta)
+      p.text("Emoji! 💜", 0, 0);
+      p.pop()
+     
+    },
+  },
 
   //================================================
   // Seamless Looping example
 
   {
     title: "Looping",
-    description: "a red dot moving <p>another paragraph</p>",
+    description: "Unimpressive looping, better looping examples incoming!",
     isActive: true,
 
     setup(p) {
