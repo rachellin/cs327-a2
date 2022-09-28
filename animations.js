@@ -2,6 +2,13 @@
 // but will need to change swatch-holder's tile settings in CSS
 const SWATCH_SIZE = 300;
 
+
+// Looping Animation inspirations
+// https://www.thisiscolossal.com/2018/11/hand-drawn-gifs-by-benjamin-zimmerman/
+// https://www.thisiscolossal.com/2018/04/animation-of-sinusoidal-waves-in-gifs-by-etienne-jacob/
+// https://www.thisiscolossal.com/2018/08/gifs-by-marcus-martinez/
+// 
+
 let animations = [
   //================================================
   // An example
@@ -133,11 +140,11 @@ let animations = [
 
   //================================================
   // For-Loops example
-
+  
   {
     title: "For-loops",
-    description: "a red dot moving <p>another paragraph</p>",
-    isActive: true,
+    description: "Use a loop to create <i>many</i> of something",
+    isActive: false,
 
     setup(p) {
       this.loopTime = 5;
@@ -146,6 +153,65 @@ let animations = [
       p.background(70);
       p.fill(0);
       p.text(t.toFixed(2), 10, 40);
+      
+      //       How many tiles and how big are they?
+      let count = 10;
+      let tileSize = p.width / count;
+      
+     
+      for (let i = 0; i < count; i++) {
+        let x = tileSize * (i + .5);
+        let y = p.height / 2;
+
+        let hue = i * 20 + t * 100;
+        
+        hue %= 360; // Wrap the hue around 360 degrees, P5 can't handle >360 hues
+        
+        // Reusing the hue allows us to make a dropshadow
+        //  and a highlight in the same color family
+        
+        // Dropshadow
+        p.fill(hue, 100, 20);
+        p.noStroke();
+        p.ellipse(x, y + tileSize/2, tileSize, tileSize*.5);
+  
+        // Main circle
+        p.fill(hue, 100, 40);
+        p.stroke(hue, 100, 20);
+        p.circle(x, y, tileSize);
+        
+        // Highlight
+        p.fill(hue, 100, 60);
+        p.noStroke();
+        p.circle(x - tileSize*.05, y - tileSize*.05, tileSize*.8);
+
+        p.fill(hue, 100, 80);
+        p.noStroke();
+        p.circle(x - tileSize*.1, y - tileSize*.1, tileSize*.5);
+
+
+      }
+  
+     
+      
+    },
+  },
+  
+  //================================================
+  // For-Loops example
+
+  {
+    title: "For-loops",
+    description: "Push/pop transformations let you rotate, scale, and more! Watch the <a href='https://www.youtube.com/watch?v=o9sgjuh-CBM'>Coding Train explanation</a> for more",
+    isActive: true,
+
+    setup(p) {
+      this.loopTime = 5;
+    },
+    draw(p, t) {
+      p.background(70);
+      p.fill(0);
+      
       //       How many tiles and how big are they?
       let count = 10;
       let tileSize = p.width / count;
@@ -191,8 +257,8 @@ let animations = [
 
   {
     title: "Nested For-loops with noise",
-    description: "You can use a nested for-loop to make a grid.  This goes well with perlin noise, which can take three parameters (imagine a 2d slice of a )",
-    isActive: true,
+    description: "You can use a nested for-loop to make a grid.  This goes well with perlin noise, which can take three parameters (imagine a 2d slice of a 3d noise cube)",
+    isActive: false,
 
     setup(p) {
       this.loopTime = 5;
