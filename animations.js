@@ -31,7 +31,7 @@ let animations = [
 			p.background(0, 0, 0)
 		},
 
-		draw(p, t, pct) {
+		draw(p, t) {
 			// Fun trick: make a semi-transparent background (opacity .02)
 			//  in order to have the older parts of the drawing "fade away"
 			// p.background(0, 0, 0, .02)
@@ -72,14 +72,14 @@ let animations = [
 		description: "How can you control movement? We can time to drive the animation, using functions like the sine wave and perlin noise",
 		isActive: false,
 
-		setup(p, t, pct) {
+		setup(p) {
 			// Draw this once at the beginning
 			p.background(0, 0, 0)
 			
 
 		},
 
-		draw(p, t, pct) {
+		draw(p, t) {
 
 			// The center of the swatch is at (p.width/2, p.height/2)
 			let x = p.width * (.5 + .5 * Math.sin(t))
@@ -93,7 +93,6 @@ let animations = [
 			// let y = p.height * p.noise(t + 100)
 			// let r = 100
 			
-
 			p.fill(100)
 			p.circle(x, y, r)
 			
@@ -108,14 +107,14 @@ let animations = [
 		description: "By using polar coordinates, you can get interesting radial patterns. Look at the difference between sine, noise, and constant radiuses",
 		isActive: false,
 
-		setup(p, t, pct) {
+		setup(p) {
 			p.background(0, 0, 0, 0)
 
 			// You can also store information on the swatch
 			this.theta = 0
 
 		},
-		draw(p, t, pct) {
+		draw(p, t) {
 			p.background(0, 0, 0, 0.02)
       this.theta += .04
 
@@ -136,21 +135,57 @@ let animations = [
 			p.circle(x, y, r)
 		}
 	},
+  
+  //================================================
+	// For-Loops example
+
+	{
+		title: "For-loops",
+		description: "a red dot moving <p>another paragraph</p>",
+		isActive: true,
+
+		setup(p) {
+			this.loopTime = 5
+
+		},
+		draw(p, t) {
+      let count = 10
+      for (let i = 0; i < count; i++) {
+        
+      }
+		}
+	},
+
 
 	//================================================
-	// An example
+	// Seamless Looping example
 
 	{
 		title: "Looping",
 		description: "a red dot moving <p>another paragraph</p>",
 		isActive: true,
 
-		setup(p, t, pct) {
+		setup(p) {
 			this.loopTime = 5
 
 		},
-		draw(p, t, pct) {
+		draw(p, t) {
+// Remember how I said % (modulo) was good for looping?
+      // This turns t, a value that goes up indefinitely
+      // into pct, a value that loops from 0 to 1
+      let pct = (t%this.loopTime)/this.loopTime
+      
+      p.background(180, 50, 90)
 			
+      // Printing text is a great way to debug
+      p.text("Time: " + t.toFixed(2), 10, 20)
+			p.text("Loop: " + pct.toFixed(2), 10, 40)
+       		
+      let x = pct*p.width
+      let y = pct*p.height
+      let r = 10
+      p.fill(0)
+      p.circle(x, y, r)
 		}
 	},
 
@@ -162,11 +197,11 @@ let animations = [
 		description: "a red dot moving <p>another paragraph</p>",
 		isActive: true,
 
-		setup(p, t, pct) {
+		setup(p) {
 			
 
 		},
-		draw(p, t, pct) {
+		draw(p, t) {
 			
 		}
 	},

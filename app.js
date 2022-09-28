@@ -5,6 +5,7 @@
  */
 
 window.addEventListener("load", function () {
+  console.log("LOADED")
   let swatchHolderEl = document.getElementById("swatch-holder");
 
   // Function to add an element to a parent element
@@ -32,6 +33,7 @@ window.addEventListener("load", function () {
         p.setup = function () {
           p.createCanvas(SWATCH_SIZE, SWATCH_SIZE);
           p.colorMode(p.HSL, 360, 100, 100);
+          p.ellipseMode(p.CENTER_RADIUS);
           animation.setup(p);
         };
 
