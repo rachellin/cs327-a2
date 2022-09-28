@@ -156,34 +156,72 @@ let animations = [
 
         let hue = i * 20 + t * 100;
         
+        hue %= 360; // Wrap the hue around 360 degrees, P5 can't handle >360 hues
+        
+        // Reusing the hue allows us to make a dropshadow
+        //  and a highlight in the same color family
+        
+        // Dropshadow
         p.fill(hue, 100, 20);
         p.noStroke();
         p.ellipse(x, y + tileSize/2, tileSize, tileSize*.5);
-
-        hue %= 360; // Wrap the hue around 360 degrees, P5 can't handle >360 hues
-        p.fill(hue, 100, 50);
-        p.stroke(hue, 100, 90);
+  
+        // Main circle
+        p.fill(hue, 100, 40);
+        p.stroke(hue, 100, 20);
         p.circle(x, y, tileSize);
         
-        
+        // Highlight
+        p.fill(hue, 100, 60);
+        p.noStroke();
+        p.circle(x - tileSize*.05, y - tileSize*.05, tileSize*.8);
+
+        p.fill(hue, 100, 80);
+        p.noStroke();
+        p.circle(x - tileSize*.1, y - tileSize*.1, tileSize*.5);
+
       }
+
+      
+    },
+  },
+
+  //================================================
+  // Double For-Loops example
+
+  {
+    title: "Nested For-loops with noise",
+    description: "You can use a nested for-loop to make a grid.  This goes well with perlin noise, which can take three parameters (imagine a 2d slice of a )",
+    isActive: true,
+
+    setup(p) {
+      this.loopTime = 5;
+    },
+    draw(p, t) {
+      p.background(70);
+      p.fill(0);
+      // How many tiles and how big are they?
+      let count = 20;
+      let tileSize = p.width / count;
+      let noiseScale = 0.0100
 
       for (let i = 0; i < count; i++) {
         for (let j = 0; j < count; j++) {
           let x = tileSize * i;
           let y = tileSize * j;
 
-          let hue = i * 20 + t * 100;
+          let hue = 700*p.noise(x * noiseScale, y * noiseScale, t + 100)
 
           hue %= 360; // Wrap the hue around 306 degrees, P5 can't handle >360 hues
-          p.fill(hue % 360, 100, 50, .3);
+          p.fill(hue % 360, 100, 50, 1);
           p.noStroke()
-          p.rect(x, y, tileSize);
+          p.rect(x, y, tileSize*.9);
         }
       }
     },
   },
 
+    
   //================================================
   // Seamless Looping example
 
