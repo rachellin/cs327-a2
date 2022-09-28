@@ -9,9 +9,7 @@ const SWATCH_SIZE = 300;
 //
 
 let animations = [
-  
-  
-//================================================
+  //================================================
   // TODO: Copy and paste this example to make your own animations
 
   {
@@ -19,18 +17,16 @@ let animations = [
     description: "a red dot moving <p>another paragraph</p>",
     isActive: false, // Set this to "true" to show this animation
 
-    setup(p) {
-      
-    },
+    setup(p) {},
     draw(p, t) {
       // Draw something here!
     },
   },
-  
+
   //================================================
   // An example
   {
-    title: "Shape and Color",
+    title: "Shape and Color!!!",
     description:
       "Basic drawing and randomness. See how using the full spectrum, a partial spectrum, or two different spectrums, or driving it based on time, can affect how the art looks",
     isActive: true,
@@ -93,7 +89,7 @@ let animations = [
     title: "Movement",
     description:
       "How can you control movement? We can time to drive the animation, using functions like the sine wave and perlin noise",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       // Draw this once at the beginning
@@ -125,7 +121,7 @@ let animations = [
     title: "polar coordinates",
     description:
       "By using polar coordinates, you can get interesting radial patterns. Look at the difference between sine, noise, and constant radiuses",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       p.background(0, 0, 0, 0);
@@ -161,7 +157,7 @@ let animations = [
   {
     title: "For-loops",
     description: "Use a loop to create <i>many</i> of something",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       this.loopTime = 5;
@@ -215,7 +211,7 @@ let animations = [
     title: "Transformation",
     description:
       "Push/pop transformations let you rotate, scale, and more! Watch the <a href='https://www.youtube.com/watch?v=o9sgjuh-CBM'>Coding Train explanation</a> for more",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       this.loopTime = 5;
@@ -280,20 +276,17 @@ let animations = [
     title: "Functions to reuse code",
     description:
       "If you put your code in a function, you can call it many times. This works great if you use transformations to move or resize before calling the function",
-    isActive: true,
+    isActive: false,
 
-    
     setup(p) {
-      
-//       A function to draw a flower, of some hue and petal count
+      //       A function to draw a flower, of some hue and petal count
       function drawFlower(hue, count) {
-      
         let petalLength = 100;
         let petalWidth = 40;
         let dTheta = (2 * Math.PI) / count;
 
-        p.noStroke()
-       
+        p.noStroke();
+
         // Draw a flower by rotating before drawing each petal
         for (let i = 0; i < count; i++) {
           p.push();
@@ -308,27 +301,25 @@ let animations = [
 
           p.pop();
         }
-        
 
         p.fill(50, 100, 50);
         p.circle(0, 0, 40);
       }
-  
+
       // Use the function to draw *many* flowers!
-      let flowerCount = 20
+      let flowerCount = 20;
       for (let i = 0; i < flowerCount; i++) {
         p.push();
-        
+
         // Draw from back to front, and make "closer" flowers bigger and lower down
-        let x = Math.random()*p.width
-        let y = i*10
-        let size = .1 + i*.03
-        
-       
+        let x = Math.random() * p.width;
+        let y = i * 10;
+        let size = 0.1 + i * 0.03;
+
         p.translate(x, y);
-        p.scale(size)
-        let hue = (Math.random()*120 + 200)%360
-        let petalCount = Math.floor(Math.random()*10 + 5)
+        p.scale(size);
+        let hue = (Math.random() * 120 + 200) % 360;
+        let petalCount = Math.floor(Math.random() * 10 + 5);
         drawFlower(hue, petalCount);
 
         p.pop();
@@ -344,7 +335,7 @@ let animations = [
     title: "Nested For-loops with noise",
     description:
       "You can use a nested for-loop to make a grid.  This goes well with perlin noise, which can take three parameters (imagine a 2d slice of a 3d noise cube)",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       this.loopTime = 5;
@@ -356,8 +347,6 @@ let animations = [
       let count = 20;
       let tileSize = p.width / count;
       let noiseScale = 0.01;
-      
-      
 
       for (let i = 0; i < count; i++) {
         for (let j = 0; j < count; j++) {
@@ -374,63 +363,57 @@ let animations = [
       }
     },
   },
-  
-  
+
   //================================================
   // Make lots of emoji
 
   {
     title: "Emoji!",
-    description:
-      "Text is an easy way to make images",
-    isActive: true,
+    description: "Text is an easy way to make images",
+    isActive: false,
 
     setup(p) {
-      
       p.background(70);
-      let emoji = ("🤲 👐 🙌 👏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤟 🤘 👌 🤏 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 🤙 💪 🖕 ✍️ 🙏 💅 🤝 🤗 🙋‍♀️ 🙆‍♂️ 🤦‍♂️").split(" ")
-	     // How many tiles and how big are they?
+      let emoji =
+        "🤲 👐 🙌 👏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤟 🤘 👌 🤏 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 🤙 💪 🖕 ✍️ 🙏 💅 🤝 🤗 🙋‍♀️ 🙆‍♂️ 🤦‍♂️".split(
+          " "
+        );
+      // How many tiles and how big are they?
       let count = 20;
       let tileSize = p.width / count;
       let noiseScale = 0.01;
-      
-      
 
       for (let i = 0; i < count; i++) {
         for (let j = 0; j < count; j++) {
           let x = tileSize * i;
           let y = tileSize * j;
-          
-          
-          let randomEmoji = p.random(emoji)
-          p.text(randomEmoji, x, y)
+
+          let randomEmoji = p.random(emoji);
+          p.text(randomEmoji, x, y);
         }
       }
     },
     draw(p, t) {
-      
-      
       // Perlin noise
       // A way to get smooth motion, but not predictable
-      let x = p.width * p.noise(t*.2)
-      let y = p.height * p.noise(t*.3 + 100)
-      let theta = 30*p.noise(t*.1)
-     
+      let x = p.width * p.noise(t * 0.2);
+      let y = p.height * p.noise(t * 0.3 + 100);
+      let theta = 30 * p.noise(t * 0.1);
+
       // Big centered text
-      p.textSize(50)
-      p.textAlign(p.CENTER)
-      
+      p.textSize(50);
+      p.textAlign(p.CENTER);
+
       // White text with a black outline
       p.fill(100);
-      p.stroke(0)
-      
-      p.push()
-      p.translate(x, y)
-      
-      p.rotate(theta)
+      p.stroke(0);
+
+      p.push();
+      p.translate(x, y);
+
+      p.rotate(theta);
       p.text("Emoji! 💜", 0, 0);
-      p.pop()
-     
+      p.pop();
     },
   },
 
@@ -440,7 +423,7 @@ let animations = [
   {
     title: "Looping",
     description: "Unimpressive looping, better looping examples incoming!",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       this.loopTime = 5;
@@ -464,6 +447,4 @@ let animations = [
       p.circle(x, y, r);
     },
   },
-
-
 ];
