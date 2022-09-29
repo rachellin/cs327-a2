@@ -18,7 +18,7 @@ let animations = [
     isActive: true, // Set this to "true" to show this animation
 
     setup(p) {
-      this.loopTime = 1;
+      this.loopTime = 3;
     },
     draw(p, t) {
       let pct = (t % this.loopTime) / this.loopTime;
@@ -64,11 +64,13 @@ let animations = [
           // Make cloud shapes
           p.scale(size);
 
-          for (var j = 0; j < 10; j++) {
+          for (var j = 0; j < 1; j++) {
             
-           
-            let x = p.map(p.noise(i, j + pct + 10), 0, 1, -4, 4);
-            let y = p.map(p.noise(i, j + pct), 0, 1, -3, 3);
+           let i2 = (i + pct)
+           let x = 0
+           let y = i2
+            // let x = p.map(p.noise(i2, j + 10), 0, 1, -4, 4);
+            // let y = p.map(p.noise(i2, j), 0, 1, -3, 3);
 
             p.noStroke();
             p.fill(0, 0, 0, 0.3);
@@ -83,7 +85,7 @@ let animations = [
       }
 
       drawClouds(100, 10, 5);
-      drawClouds(140, 10, 8);
+      // drawClouds(140, 10, 8);
 
       p.pop();
     },
