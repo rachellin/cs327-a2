@@ -9,8 +9,7 @@ const SWATCH_SIZE = 300;
 //
 
 let animations = [
-  
-    //================================================
+  //================================================
   // TODO: Copy and paste this example to make your own animations
 
   {
@@ -19,52 +18,77 @@ let animations = [
     isActive: true, // Set this to "true" to show this animation
 
     setup(p) {
-      this.loopTime = 1
+      this.loopTime = 1;
     },
     draw(p, t) {
       let pct = (t % this.loopTime) / this.loopTime;
 
       // Draw something here!
-      p.background(210, 80, 80, .02)
-      
-      let sunHue = 50
+      p.background(210, 80, 80);
+
+      let sunHue = 50;
       // Set the color!
-      p.fill(sunHue, 100, 50)
-      p.stroke(sunHue, 100, 90)
-      
+      p.fill(sunHue, 100, 50);
+      p.stroke(sunHue, 100, 90);
+
       // Move to the center
-      p.push()
-      p.translate(p.width/2, p.height/2)
-      
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
+
       // Draw the sun's center
-      p.circle(0, 0, 60)
-      p.fill(sunHue, 100, 80)
-      p.circle(0, 0, 30)
-      
-      let count = 100
-      let theta = Math.PI*2/count
+      p.circle(0, 0, 60);
+      p.fill(sunHue, 100, 80);
+      p.circle(0, 0, 30);
+
+      let count = 100;
+      let theta = (Math.PI * 2) / count;
       for (var i = 0; i < count; i++) {
-        p.rotate(theta)
-        let lineLength = 200*p.noise(i*.1, t*3)
-        p.line(0, 0, lineLength, 0)
+        p.rotate(theta);
+        let lineLength = 200 * p.noise(i * 0.1, t * 3);
+        p.line(0, 0, lineLength, 0);
       }
-      
+
       // Draw rotating clouds
-      let cloudCount = 20
-      p.push()
-      for (var i = 0; i < cloudCount; i++) {
-        let theta = Math.PI*2/cloudCount
-        
-        p.stroke(0)
-        p.fill(1)
-        p.ellipse(0, -10)
+
+      function drawClouds(radius, size, cloudCount) {
+        let dTheta = (Math.PI * 2) / cloudCount;
+        for (var i = 0; i < cloudCount; i++) {
+          let theta = dTheta * i;
+          // We want this cloud to move..one step over in this time
+          theta += pct * dTheta;
+
+          p.push();
+          p.rotate(theta);
+          p.translate(0, -radius);
+
+          // Make cloud shapes
+          p.scale(size);
+
+          for (var j = 0; j < 10; j++) {
+            
+           
+            let x = p.map(p.noise(i, j + pct + 10), 0, 1, -4, 4);
+            let y = p.map(p.noise(i, j + pct), 0, 1, -3, 3);
+
+            p.noStroke();
+            p.fill(0, 0, 0, 0.3);
+            p.ellipse(x, y - 0.2, 2, 1);
+
+            p.fill(100);
+            p.ellipse(x, y, 2, 1);
+          }
+
+          p.pop();
+        }
       }
-      p.pop()
-      
-      p.pop()
+
+      drawClouds(100, 10, 5);
+      drawClouds(140, 10, 8);
+
+      p.pop();
     },
   },
-  
+
   //================================================
   // TODO: Copy and paste this example to make your own animations
 
@@ -109,7 +133,7 @@ let animations = [
 
     draw(p, t) {
       // p.background(0, 0, 0);
-      
+
       // Fun trick: make a semi-transparent background (opacity .02)
       //  in order to have the older parts of the drawing "fade away"
       // p.background(0, 0, 0, .02)
@@ -155,7 +179,7 @@ let animations = [
     },
 
     draw(p, t) {
-      p.background(0, 0, 0, .1);
+      p.background(0, 0, 0, 0.1);
       // The center of the swatch is at (p.width/2, p.height/2)
       // let x = p.width * (0.5 + 0.5 * Math.sin(t));
       // // let y = p.height * 0.5;
@@ -164,9 +188,9 @@ let animations = [
 
       // Perlin noise
       // A way to get smooth motion, but not predictable
-      let x = p.width * p.noise(t)
-      let y = p.height * p.noise(t + 100)
-      let r = 100
+      let x = p.width * p.noise(t);
+      let y = p.height * p.noise(t + 100);
+      let r = 100;
 
       p.fill(100);
       p.circle(x, y, r);
