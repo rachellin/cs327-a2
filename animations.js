@@ -14,14 +14,16 @@ let animations = [
   // TODO: Copy and paste this example to make your own animations
 
   {
-    title: "Ktes in class animation",
-    description: "a red dot moving <p>another paragraph</p>",
+    title: "Looping sun",
+    description: "",
     isActive: true, // Set this to "true" to show this animation
 
     setup(p) {
-
+      this.loopTime = 1
     },
     draw(p, t) {
+      let pct = (t % this.loopTime) / this.loopTime;
+
       // Draw something here!
       p.background(210, 80, 80, .02)
       
@@ -30,8 +32,11 @@ let animations = [
       p.fill(sunHue, 100, 50)
       p.stroke(sunHue, 100, 90)
       
+      // Move to the center
       p.push()
-      p.translate(80, 30)
+      p.translate(p.width/2, p.height/2)
+      
+      // Draw the sun's center
       p.circle(0, 0, 60)
       p.fill(sunHue, 100, 80)
       p.circle(0, 0, 30)
@@ -43,6 +48,19 @@ let animations = [
         let lineLength = 200*p.noise(i*.1, t*3)
         p.line(0, 0, lineLength, 0)
       }
+      
+      // Draw rotating clouds
+      let cloudCount = 20
+      p.push()
+      for (var i = 0; i < cloudCount; i++) {
+        let theta = Math.PI*2/cloudCount
+        
+        p.stroke(0)
+        p.fill(1)
+        p.ellipse(0, -10)
+      }
+      p.pop()
+      
       p.pop()
     },
   },
