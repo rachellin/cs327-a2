@@ -1,5 +1,3 @@
-
-
 // You can change this,
 // but will need to change swatch-holder's tile settings in CSS
 const SWATCH_SIZE = 300;
@@ -67,13 +65,11 @@ let animations = [
           p.scale(size);
 
           for (var j = 0; j < 1; j++) {
-            
-           let i2 = (i + pct)
-           let x = 0
-           let y = i2
-            // let x = p.map(p.noise(i2, j + 10), 0, 1, -4, 4);
-            // let y = p.map(p.noise(i2, j), 0, 1, -3, 3);
-
+            // By the pct=1, get to where the NEXT i starts
+            let i2 = i + pct;
+            let x = 0;
+            let y = Math.sin(Math.PI*2*i2)
+          
             p.noStroke();
             p.fill(0, 0, 0, 0.3);
             p.ellipse(x, y - 0.2, 2, 1);
@@ -503,43 +499,44 @@ let animations = [
       p.pop();
     },
   },
-  
-  	// Going *around* the screen
-	{
-		isActive:true,
-		title: "loops",
-  
-    setup() {
-      
+
+  // Going *around* the screen
+  {
+    isActive: true,
+    title: "'Looping' around the screen",
+
+    setup() {},
+    draw: function (p, t) {
+      // Each frame, draw a light gray background
+      // p.background(0, 0, 80, 0)
+
+      for (var i = 0; i < 40; i++) {
+        // Go from right to left, with a noise move downward
+        let x = t * 70 + i * 20;
+        let y = t * 70 + i * 5 + 100 * p.noise(t + i * 0.1);
+
+        // Loop around!
+        x %= p.width;
+        y %= p.height;
+
+        let hue = (t * 50 + i) % 360;
+        let circleRadius = 10;
+
+        //         Using an exponent (ie, 0.3 ^ 3)
+        // pushes values closer to 0, unless they are near 1
+
+        let saturation = 300 * p.noise(t) ** 3;
+
+        // Make a drop shadow
+        p.noStroke();
+        p.fill(hue, saturation, 0, 0.1);
+        p.circle(x, y + 10, circleRadius * 1);
+
+        p.fill(hue, saturation, 100 - 0.5 * saturation);
+        p.circle(x, y, circleRadius);
+      }
     },
-		draw: function(p, t) {
-			// Each frame, draw a light gray background
-			// p.background(0, 0, 80, 0)
-      
-			for (var i = 0; i < 40; i++) {
-        
-				// Go from right to left
-				let x = (t*70 + i*20)
-				let y = (t*70 + i*5) + 100*p.noise(t + i*.1)
-
-				// Loop around!
-				x %= p.width
-				y %= p.height
-
-				let hue = (t*50 + i)%360
-				let circleRadius = 10
-
-				// Make a drop shadow
-				p.noStroke()
-				p.fill(hue, 100, 0, .1)
-				p.circle(x, y + 10, circleRadius*1)
-
-				p.fill(hue, 100, 50)
-				p.circle(x, y, circleRadius)
-			}
-		}
-	},
-
+  },
 
   //================================================
   // Seamless Looping example
@@ -574,50 +571,60 @@ let animations = [
   {
     title: "Polar looping",
     description: "",
-		isActive: true,
-    
+    isActive: true,
+
     setup(p) {
-      this.loopTime = 4
-      
+      this.loopTime = 4;
     },
-		draw(p, t) {
-			p.background(0, 0, 100, .01)
-		
-			// How many seconds long is our loop?  You can use that to time your gifs
-			
-			let cyclePct = (t/this.loopTime)%1
+    draw(p, t) {},
+  },
 
-			let count = 20
+  {
+    title: "Polar looping",
+    description: "",
+    isActive: true,
 
-			// Move to the center
-			p.push()
-			p.translate(p.width/2, p.height/2)
+    setup(p) {
+      this.loopTime = 4;
+    },
+    draw(p, t) {
+      p.background(0, 0, 100, 0.01);
 
-			for (var i = 0; i < count; i++) {
-				// If we have N particles, each one only has to go
-				// dTheta radians to get to the next particles start point
-				let dTheta = Math.PI*2/count
+      // How many seconds long is our loop?  You can use that to time your gifs
 
-				// Start at dTheta*i, end up at dTheta*(1 + i)
-				let i2 = i + cyclePct
-				let theta = i2*dTheta
+      let cyclePct = (t / this.loopTime) % 1;
 
-				// Start at dTheta*i, end up at dTheta*(1 + i)
-				let polarRadius = 100 + 40*Math.cos(Math.PI*i2)
+      let count = 20;
 
-				let circleRadius = 10*(1.5 + Math.sin(Math.PI*i2))
+      // Move to the center
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
 
-				// Loop all the way around the color wheel
-				let hue = i2*360/count
-				p.fill(hue, 100, 50)
-				p.stroke(hue, 100, 20)
+      for (var i = 0; i < count; i++) {
+        // If we have N particles, each one only has to go
+        // dTheta radians to get to the next particles start point
+        let dTheta = (Math.PI * 2) / count;
 
-				let x = polarRadius*Math.cos(theta)
-				let y = polarRadius*Math.sin(theta)
-				p.circle(x, y, circleRadius)
-			}
+        // Start at dTheta*i, end up at dTheta*(1 + i)
+        let i2 = i + cyclePct;
+        let theta = i2 * dTheta;
 
-			p.pop()
-		}
-}
+        // Start at dTheta*i, end up at dTheta*(1 + i)
+        let polarRadius = 100 + 40 * Math.cos(Math.PI * i2);
+
+        let circleRadius = 10 * (1.5 + Math.sin(Math.PI * i2));
+
+        // Loop all the way around the color wheel
+        let hue = (i2 * 360) / count;
+        p.fill(hue, 100, 50);
+        p.stroke(hue, 100, 20);
+
+        let x = polarRadius * Math.cos(theta);
+        let y = polarRadius * Math.sin(theta);
+        p.circle(x, y, circleRadius);
+      }
+
+      p.pop();
+    },
+  },
 ];
