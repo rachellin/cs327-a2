@@ -13,6 +13,21 @@ let animations = [
   // TODO: Copy and paste this example to make your own animations
 
   {
+    title: "Blank",
+    description: "a red dot moving <p>another paragraph</p>",
+    isActive: true, // Set this to "true" to show this animation
+
+    setup(p) {},
+    draw(p, t) {
+      p.background(100);
+      p.fill(0, 100, 50);
+      let x = (t * 100) % p.width;
+      let y = 50;
+      p.circle(x, y, 40);
+    },
+  },
+
+  {
     title: "Looping sun",
     description: "",
     isActive: false, // Set this to "true" to show this animation
@@ -84,67 +99,6 @@ let animations = [
 
       drawClouds(100, 10, 5);
       // drawClouds(140, 10, 8);
-
-      p.pop();
-    },
-  },
-
-  //================================================
-  // TODO: Copy and paste this example to make your own animations
-
-  {
-    title: "In class looping",
-    description: "a red dot moving <p>another paragraph</p>",
-    isActive: true, // Set this to "true" to show this animation
-
-    setup(p) {
-      this.loopTime = 1;
-    },
-    draw(p, t) {
-      p.background(100);
-      // Remember how I said % (modulo) was good for looping?
-      // This turns t, a value that goes up indefinitely
-      // into pct, a value that loops from 0 to 1
-      let pct = (t % this.loopTime) / this.loopTime;
-      p.text(pct.toFixed(2), 10, 40);
-      // console.log(pct)
-
-      //       Draw multiple circles in multiple locations
-      let x = pct * p.width;
-      let pctTheta = Math.PI*2*pct
-      // x = 50
-      let hue = pct*360
-      p.fill(hue, 100, 50)
-      
-      p.scale(1, Math.sin(pctTheta)*.2 + 1)
-      p.circle(x, 100, 100);
-      p.circle(x + p.width, 100, 100);
-      p.circle(x - p.width, 100, 100);
-
-      // Rotating - easy mode looping
-      p.push();
-      p.translate(p.width / 2, p.height / 2);
-
-      // What is the rotation ALL THE WAY aroudn the circle
-      let theta = p.map(pct, 0, 1, 0, Math.PI * 2);
-      p.rotate(theta);
-      // everythign in here make a full circle
-      
-      //       Rotating rectangle
-//       p.push()
-      
-//       let count = 19
-
-//       for (var i = 0; i < count; i++) {
-
-//        let x = 100*p.noise(i + 10)
-//        let y = 100*p.noise(i)
-      
-//         let w = 10;
-//         p.rect(x + -w / 2, y+  -w / 2, w, w);
-//       }
-      
-//       p.pop()
 
       p.pop();
     },
@@ -549,7 +503,7 @@ let animations = [
 
   // Going *around* the screen
   {
-    isActive: true,
+    isActive: false,
     title: "'Looping' around the screen",
 
     setup() {},
@@ -615,21 +569,11 @@ let animations = [
       p.circle(x, y, r);
     },
   },
-  {
-    title: "Polar looping",
-    description: "",
-    isActive: true,
-
-    setup(p) {
-      this.loopTime = 4;
-    },
-    draw(p, t) {},
-  },
 
   {
     title: "Polar looping",
     description: "",
-    isActive: true,
+    isActive: false,
 
     setup(p) {
       this.loopTime = 4;
@@ -670,6 +614,78 @@ let animations = [
         let y = polarRadius * Math.sin(theta);
         p.circle(x, y, circleRadius);
       }
+
+      p.pop();
+    },
+  },
+
+  {
+    title: "In class looping",
+    description: "Examples of some looping",
+    isActive: true, // Set this to "true" to show this animation
+
+    setup(p) {
+      this.loopTime = 2;
+    },
+    draw(p, t) {
+      p.noStroke()
+      p.background(100);
+      // Remember how I said % (modulo) was good for looping?
+      // This turns t, a value that goes up indefinitely
+      // into pct, a value that loops from 0 to 1
+      let pct = (t % this.loopTime) / this.loopTime;
+//       This one is in radians, for things that go around a circle
+      let pctTheta = Math.PI * 2 * pct;
+      
+      p.fil
+      p.text(pct.toFixed(2), 10, 40);
+      
+      
+      // Replacement looping
+      // This circle "becomes" the background
+      let radius = pct * 500;
+      p.fill(0, 0, pct*100)
+      p.circle(p.width/2, p.height/2, radius);
+      
+      // Invisible-to-invisible looping
+      let opacity = Math.cos(pctTheta)
+      p.fill(10, 100, 50, opacity)
+      p.rect(0, 0, 40, 40)
+      
+
+      // Draw multiple circles in multiple locations
+      let x = pct * p.width;
+      // x = 50
+      let hue = pct * 360;
+      p.fill(hue, 100, 50);
+
+      p.push();
+      p.scale(1, Math.sin(pctTheta) * 0.2 + 1);
+      p.circle(x, 100, 100);
+      p.circle(x + p.width, 100, 100);
+      p.circle(x - p.width, 100, 100);
+      p.pop();
+
+      // Rotating - easy mode looping
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
+
+
+      // What is the rotation ALL THE WAY aroudn the circle
+      let theta = p.map(pct, 0, 1, 0, Math.PI * 2);
+      // p.rotate(theta);
+      // everythign in here make a full circle
+      //       Rotating rectangle
+      //       p.push()
+      //       let count = 19
+
+      //       for (var i = 0; i < count; i++) {
+      //        let x = 100*p.noise(i + 10)
+      //        let y = 100*p.noise(i)
+      //         let w = 10;
+      //         p.rect(x + -w / 2, y+  -w / 2, w, w);
+      //       }
+      //       p.pop()
 
       p.pop();
     },
