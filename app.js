@@ -65,3 +65,29 @@ window.addEventListener("load", function () {
     }
   });
 });
+
+
+//=========================================
+// Utility functions
+// Given a processing object, a pct around the circle, a radius, and an offset (optional)
+function getLoopingNoise({
+	p,
+	loopPct,
+	radius,
+	offset = 0
+}) {
+
+  // This number should go from 0 to 1 every loopLength seconds
+  // And PI*2 radians every loopLength seconds
+
+  let theta = 2 * Math.PI * loopPct
+
+  // Place to sample the noise from
+  let x = radius * Math.cos(theta)
+  let y = radius * Math.sin(theta)
+
+  let noiseVal = p.noise(x + 100, y + 30, offset)
+
+  return noiseVal
+}
+
