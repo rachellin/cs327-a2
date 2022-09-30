@@ -68,8 +68,8 @@ let animations = [
             // By the pct=1, get to where the NEXT i starts
             let i2 = i + pct;
             let x = 0;
-            let y = Math.sin(Math.PI*2*i2)
-          
+            let y = Math.sin(Math.PI * 2 * i2);
+
             p.noStroke();
             p.fill(0, 0, 0, 0.3);
             p.ellipse(x, y - 0.2, 2, 1);
@@ -98,17 +98,49 @@ let animations = [
     isActive: true, // Set this to "true" to show this animation
 
     setup(p) {
-       this.loopTime = 10
-      
+      this.loopTime = 1;
     },
     draw(p, t) {
-      p.background(100)
-           // Remember how I said % (modulo) was good for looping?
+      p.background(100);
+      // Remember how I said % (modulo) was good for looping?
       // This turns t, a value that goes up indefinitely
       // into pct, a value that loops from 0 to 1
       let pct = (t % this.loopTime) / this.loopTime;
-      p.text(pct.toFixed(2), 10, 40)
+      p.text(pct.toFixed(2), 10, 40);
       // console.log(pct)
+
+      //       Draw multiple circles in multiple locations
+      let x = pct * p.width;
+      p.circle(x, 100, 100);
+      p.circle(x + p.width, 100, 100);
+      p.circle(x - p.width, 100, 100);
+
+      // Rotating - easy mode looping
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
+
+      // What is the rotation ALL THE WAY aroudn the circle
+      let theta = p.map(pct, 0, 1, 0, Math.PI * 2);
+      p.rotate(theta);
+      // everythign in here make a full circle
+      
+      //       Rotating rectangle
+      p.push()
+      
+      let count = 19
+
+      for (var i = 0; i < count; i++) {
+
+       let x = 100*p.noise(i + 10)
+       let y = 100*p.noise(i)
+      
+        let w = 10;
+        p.rect(x + -w / 2, y+  -w / 2, w, w);
+      }
+      
+      p.pop()
+
+      p.pop();
     },
   },
 
