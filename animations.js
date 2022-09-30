@@ -628,16 +628,16 @@ let animations = [
       this.loopTime = 2;
     },
     draw(p, t) {
-      p.noStroke()
+      p.noStroke();
       p.background(100);
       // Remember how I said % (modulo) was good for looping?
       // This turns t, a value that goes up indefinitely
       // into pct, a value that loops from 0 to 1
       let pct = (t % this.loopTime) / this.loopTime;
-//       This one is in radians, for things that go around a circle
+      //       This one is in radians, for things that go around a circle
       let pctTheta = Math.PI * 2 * pct;
       
-      p.fil
+      p.fill(0)
       p.text(pct.toFixed(2), 10, 40);
       
       
@@ -648,9 +648,15 @@ let animations = [
       p.circle(p.width/2, p.height/2, radius);
       
       // Invisible-to-invisible looping
-      let opacity = Math.cos(pctTheta)
+      // You can use offsets in any cos/sin behavior to change timing
+      let opacity = Math.cos(pctTheta)*.5 + .5
+      p.fill(0)
       p.fill(10, 100, 50, opacity)
       p.rect(0, 0, 40, 40)
+        
+      let opacity2 = Math.cos(pctTheta + Math.PI)*.5 + .5
+      p.fill(40, 100, 50, opacity2)
+      p.rect(40, 0, 40, 40)
       
 
       // Draw multiple circles in multiple locations
