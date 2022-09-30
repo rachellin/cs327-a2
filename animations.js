@@ -111,6 +111,12 @@ let animations = [
 
       //       Draw multiple circles in multiple locations
       let x = pct * p.width;
+      let pctTheta = Math.PI*2*pct
+      // x = 50
+      let hue = pct*360
+      p.fill(hue, 100, 50)
+      
+      p.scale(1, Math.sin(pctTheta)*.2 + 1)
       p.circle(x, 100, 100);
       p.circle(x + p.width, 100, 100);
       p.circle(x - p.width, 100, 100);
@@ -125,20 +131,20 @@ let animations = [
       // everythign in here make a full circle
       
       //       Rotating rectangle
-      p.push()
+//       p.push()
       
-      let count = 19
+//       let count = 19
 
-      for (var i = 0; i < count; i++) {
+//       for (var i = 0; i < count; i++) {
 
-       let x = 100*p.noise(i + 10)
-       let y = 100*p.noise(i)
+//        let x = 100*p.noise(i + 10)
+//        let y = 100*p.noise(i)
       
-        let w = 10;
-        p.rect(x + -w / 2, y+  -w / 2, w, w);
-      }
+//         let w = 10;
+//         p.rect(x + -w / 2, y+  -w / 2, w, w);
+//       }
       
-      p.pop()
+//       p.pop()
 
       p.pop();
     },
