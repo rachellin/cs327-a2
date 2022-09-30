@@ -15,7 +15,7 @@ let animations = [
   {
     title: "Looping sun",
     description: "",
-    isActive: true, // Set this to "true" to show this animation
+    isActive: false, // Set this to "true" to show this animation
 
     setup(p) {
       this.loopTime = 3;
@@ -93,13 +93,22 @@ let animations = [
   // TODO: Copy and paste this example to make your own animations
 
   {
-    title: "Your animation here",
+    title: "In class looping",
     description: "a red dot moving <p>another paragraph</p>",
-    isActive: false, // Set this to "true" to show this animation
+    isActive: true, // Set this to "true" to show this animation
 
-    setup(p) {},
+    setup(p) {
+       this.loopTime = 10
+      
+    },
     draw(p, t) {
-      // Draw something here!
+      p.background(100)
+           // Remember how I said % (modulo) was good for looping?
+      // This turns t, a value that goes up indefinitely
+      // into pct, a value that loops from 0 to 1
+      let pct = (t % this.loopTime) / this.loopTime;
+      p.text(pct.toFixed(2), 10, 40)
+      // console.log(pct)
     },
   },
 
