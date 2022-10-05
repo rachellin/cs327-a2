@@ -26,6 +26,43 @@ let animations = [
       p.circle(x, y, 40);
     },
   },
+  
+   {
+    title: "Lazy rain",
+    description: "wrapping falling dots",
+    isActive: true, // Set this to "true" to show this animation
+
+    setup(p) {},
+    draw(p, t) {
+      
+      p.background(220, 50, 12, .3);
+      
+      let count = 100
+      for (var i = 0; i < count; i++) {
+        p.fill(120, 100, 97);
+        let x = (i*17) % p.width
+        
+        
+//         Start at some position
+        let y = 700*p.noise(i)
+        
+        // "Fall" at some rate
+        y += t*(100 + i)
+        
+     //   Wrap vertically
+        y = (y % p.height)
+        
+        x += 100*p.noise(y*.01, t*.2)
+        
+        
+        p.noStroke()
+        // Make "closer" ones bigger
+        let r = 1 + .1*i
+        p.circle(x, y, r);
+      }
+      
+    },
+  },
 
   {
     title: "Looping sun",
