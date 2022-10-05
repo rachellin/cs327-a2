@@ -47,17 +47,18 @@ let animations = [
         let y = 700*p.noise(i)
         
         // "Fall" at some rate
-        y += t*(100 + i)
+        y += t*(40 + i)
         
      //   Wrap vertically
         y = (y % p.height)
         
-        x += 100*p.noise(y*.01, t*.2)
+//         Sideways wiggle, I don't like it yet...
+        // x += (100 + i)*p.noise(y*.001, t*.2)
         
         
         p.noStroke()
         // Make "closer" ones bigger
-        let r = 1 + .1*i
+        let r = 1 + .04*i
         p.circle(x, y, r);
       }
       
