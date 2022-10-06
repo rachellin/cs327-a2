@@ -26,42 +26,114 @@ let animations = [
       p.circle(x, y, 40);
     },
   },
-  
-   {
+
+  {
     title: "Lazy rain",
+    description: "wrapping falling dots",
+    isActive: false, // Set this to "true" to show this animation
+
+    setup(p) {},
+    draw(p, t) {
+      p.background(220, 50, 12, 0.3);
+
+      let count = 100;
+      for (var i = 0; i < count; i++) {
+        p.fill(120, 100, 97);
+        let x = (i * 17) % p.width;
+
+        //         Start at some position
+        let y = 700 * p.noise(i);
+
+        // "Fall" at some rate
+        y += t * (40 + i);
+
+        //   Wrap vertically
+        y = y % p.height;
+
+        //         Sideways wiggle, I don't like it yet...
+        // x += (100 + i)*p.noise(y*.001, t*.2)
+
+        p.noStroke();
+        // Make "closer" ones bigger
+        let r = 1 + 0.04 * i;
+        p.circle(x, y, r);
+      }
+    },
+  },
+
+  {
+    title: "Symmetry",
     description: "wrapping falling dots",
     isActive: true, // Set this to "true" to show this animation
 
     setup(p) {},
     draw(p, t) {
-      
-      p.background(220, 50, 12, .3);
-      
-      let count = 100
-      for (var i = 0; i < count; i++) {
-        p.fill(120, 100, 97);
-        let x = (i*17) % p.width
-        
-        
-//         Start at some position
-        let y = 700*p.noise(i)
-        
-        // "Fall" at some rate
-        y += t*(40 + i)
-        
-     //   Wrap vertically
-        y = (y % p.height)
-        
-//         Sideways wiggle, I don't like it yet...
-        // x += (100 + i)*p.noise(y*.001, t*.2)
-        
-        
-        p.noStroke()
-        // Make "closer" ones bigger
-        let r = 1 + .04*i
-        p.circle(x, y, r);
+      p.background(220, 50, 12, 0.01);
+
+      function drawDots() {
+        let count = 40;
+        for (var i = 0; i < count; i++) {
+          p.fill(120, 100, 97);
+          let x = (i * 17) % p.width;
+
+          //         Start at some position
+          let y = 700 * p.noise(i);
+
+          // "Fall" at some rate
+          y += t * (40 + i);
+
+          //   Wrap vertically
+          y = y % p.height;
+
+           x += (200 + 5*i) * p.noise(i, t * 0.2);
+
+          p.noStroke();
+          // Make "closer" ones bigger
+          let r = 1 + 0.04 * i;
+          p.circle(x, y, r);
+        }
       }
       
+    // Draw once regular
+//       drawDots()
+      
+//       p.push()
+//       p.translate(p.width, 0)
+//       p.scale(-1, 1)
+//       drawDots()
+//       p.pop()
+      
+//        p.push()
+//       p.translate(p.width, 0)
+//       p.scale(-1, 1)
+//       drawDots()
+//       p.pop()
+      
+//        p.push()
+//       p.translate(p.width, p.height)
+//       p.scale(-1, -1)
+//       drawDots()
+//       p.pop()
+      
+//        p.push()
+//       p.translate(0, p.height)
+//       p.scale(1, -1)
+//       drawDots()
+//       p.pop()
+      
+//       Or radial symmetry!
+      
+      let symmetryCount = 5
+      for (var i = 0 ;i <symmetryCount; i++) {
+         p.push()
+        
+      p.translate(p.width/2, p.height/2)
+        p.scale(.7)
+        p.rotate(i*Math.PI*2/symmetryCount)
+       drawDots()
+      p.pop()
+      }
+     
     },
   },
 
@@ -674,28 +746,26 @@ let animations = [
       let pct = (t % this.loopTime) / this.loopTime;
       //       This one is in radians, for things that go around a circle
       let pctTheta = Math.PI * 2 * pct;
-      
-      p.fill(0)
+
+      p.fill(0);
       p.text(pct.toFixed(2), 10, 40);
-      
-      
+
       // Replacement looping
       // This circle "becomes" the background
       let radius = pct * 500;
-      p.fill(0, 0, pct*100)
-      p.circle(p.width/2, p.height/2, radius);
-      
+      p.fill(0, 0, pct * 100);
+      p.circle(p.width / 2, p.height / 2, radius);
+
       // Invisible-to-invisible looping
       // You can use offsets in any cos/sin behavior to change timing
-      let opacity = Math.cos(pctTheta)*.5 + .5
-      p.fill(0)
-      p.fill(10, 100, 50, opacity)
-      p.rect(0, 0, 40, 40)
-        
-      let opacity2 = Math.cos(pctTheta + Math.PI)*.5 + .5
-      p.fill(40, 100, 50, opacity2)
-      p.rect(40, 0, 40, 40)
-      
+      let opacity = Math.cos(pctTheta) * 0.5 + 0.5;
+      p.fill(0);
+      p.fill(10, 100, 50, opacity);
+      p.rect(0, 0, 40, 40);
+
+      let opacity2 = Math.cos(pctTheta + Math.PI) * 0.5 + 0.5;
+      p.fill(40, 100, 50, opacity2);
+      p.rect(40, 0, 40, 40);
 
       // Draw multiple circles in multiple locations
       let x = pct * p.width;
@@ -713,7 +783,6 @@ let animations = [
       // Rotating - easy mode looping
       p.push();
       p.translate(p.width / 2, p.height / 2);
-
 
       // What is the rotation ALL THE WAY aroudn the circle
       let theta = p.map(pct, 0, 1, 0, Math.PI * 2);
