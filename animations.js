@@ -71,6 +71,8 @@ let animations = [
       p.background(220, 50, 12, 0.01);
 
       function drawDots() {
+        // Wrap your drawing in a function so we can call it
+        // MULTIPLE TIMES!
         let count = 40;
         for (var i = 0; i < count; i++) {
           p.fill(120, 100, 97);
@@ -85,7 +87,7 @@ let animations = [
           //   Wrap vertically
           y = y % p.height;
 
-           x += (200 + 5*i) * p.noise(i, t * 0.2);
+          x += (200 + 5 * i) * p.noise(i, t * 0.2);
 
           p.noStroke();
           // Make "closer" ones bigger
@@ -93,47 +95,48 @@ let animations = [
           p.circle(x, y, r);
         }
       }
-      
-    // Draw once regular
-//       drawDots()
-      
-//       p.push()
-//       p.translate(p.width, 0)
-//       p.scale(-1, 1)
-//       drawDots()
-//       p.pop()
-      
-//        p.push()
-//       p.translate(p.width, 0)
-//       p.scale(-1, 1)
-//       drawDots()
-//       p.pop()
-      
-//        p.push()
-//       p.translate(p.width, p.height)
-//       p.scale(-1, -1)
-//       drawDots()
-//       p.pop()
-      
-//        p.push()
-//       p.translate(0, p.height)
-//       p.scale(1, -1)
-//       drawDots()
-//       p.pop()
-      
-//       Or radial symmetry!
-      
-      let symmetryCount = 5
-      for (var i = 0 ;i <symmetryCount; i++) {
-         p.push()
-        
-      p.translate(p.width/2, p.height/2)
-        p.scale(.7)
-        p.rotate(i*Math.PI*2/symmetryCount)
-       drawDots()
-      p.pop()
-      }
-     
+
+      // Draw once regular
+      drawDots();
+
+      ///... and once transformed
+      p.push();
+      p.translate(p.width, 0);
+      p.scale(-1, 1);
+      drawDots();
+      p.pop();
+
+      //       Four-way symmetry
+      //  p.push()
+      // p.translate(p.width, 0)
+      // p.scale(-1, 1)
+      // drawDots()
+      // p.pop()
+
+      //        p.push()
+      //       p.translate(p.width, p.height)
+      //       p.scale(-1, -1)
+      //       drawDots()
+      //       p.pop()
+
+      //        p.push()
+      //       p.translate(0, p.height)
+      //       p.scale(1, -1)
+      //       drawDots()
+      //       p.pop()
+
+      //       Or radial symmetry!
+
+      //       let symmetryCount = 5
+      //       for (var i = 0 ;i <symmetryCount; i++) {
+      //          p.push()
+
+      //       p.translate(p.width/2, p.height/2)
+      //         p.scale(.7)
+      //         p.rotate(i*Math.PI*2/symmetryCount)
+      //        drawDots()
+      //       p.pop()
+      // }
     },
   },
 
