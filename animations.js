@@ -30,7 +30,7 @@ let animations = [
   {
     title: "Lazy rain",
     description: "wrapping falling dots",
-    isActive: false, // Set this to "true" to show this animation
+    isActive: true, // Set this to "true" to show this animation
 
     setup(p) {},
     draw(p, t) {
@@ -143,7 +143,7 @@ let animations = [
   {
     title: "Looping sun",
     description: "",
-    isActive: false, // Set this to "true" to show this animation
+    isActive: true, // Set this to "true" to show this animation
 
     setup(p) {
       this.loopTime = 3;
@@ -223,7 +223,7 @@ let animations = [
     title: "Shape and Color!!!",
     description:
       "Basic drawing and randomness. See how using the full spectrum, a partial spectrum, or two different spectrums, or driving it based on time, can affect how the art looks",
-    isActive: false,
+    isActive: true,
 
     /**
      * TODO: Read this!
@@ -408,7 +408,7 @@ let animations = [
     title: "Transformation",
     description:
       "Push/pop transformations let you rotate, scale, and more! Watch the <a href='https://www.youtube.com/watch?v=o9sgjuh-CBM'>Coding Train explanation</a> for more",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       this.loopTime = 5;
@@ -473,7 +473,7 @@ let animations = [
     title: "Functions to reuse code",
     description:
       "If you put your code in a function, you can call it many times. This works great if you use transformations to move or resize before calling the function",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       //       A function to draw a flower, of some hue and petal count
@@ -532,7 +532,7 @@ let animations = [
     title: "Nested For-loops with noise",
     description:
       "You can use a nested for-loop to make a grid.  This goes well with perlin noise, which can take three parameters (imagine a 2d slice of a 3d noise cube)",
-    isActive: false,
+    isActive: true,
 
     setup(p) {
       this.loopTime = 5;
