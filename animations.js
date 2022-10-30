@@ -20,7 +20,7 @@ let animations = [
     setup(p) {},
     draw(p, t) {
       p.background(100);
-      p.fill(0, 100, 50);
+      p.fill(120, 100, 50);
       let x = (t * 100) % p.width;
       let y = 50;
       p.circle(x, y, 40);
