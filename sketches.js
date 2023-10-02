@@ -26,7 +26,7 @@ function ease(t) {
 const sketches = [
   {
     name: "my first sketch",
-    show: true,
+    show: false,
 
     draw(p) {
       // Get time in SECONDS
@@ -48,7 +48,8 @@ const sketches = [
       // if you go to 0, it becomes black
       // Here we set a maximum-saturated fill, with a darker stroke
       // let hue = Math.random() * 360;
-      let hue = (t * 300)%360;
+      // Set hue to some function of the current time
+      let hue = (t * 100) % 360;
       p.strokeWeight(5);
       p.stroke(hue, 100, 20);
       p.fill(hue, 100, 50);
@@ -65,16 +66,17 @@ const sketches = [
       // 		// p.fill(hue, 100, 90)
 
       // Give me a radius between 20 and 60
-      let circleRadius = Math.random() * 40 + 20
-      let x = Math.random()*p.width
-      let y = Math.random()*p.height
+      let circleRadius = Math.random() * 40 + 20;
+      let x = Math.random() * p.width;
+      let y = Math.random() * p.height;
 
-      		p.circle(x, y, circleRadius)
+      p.circle(x, y, circleRadius);
+      p.rect(x, y, circleRadius, circleRadius);
     },
   },
   {
     name: "my first animating sketch",
-    show: true,
+    show: false,
 
     setup(p) {
       // Setup only happens once.
@@ -128,7 +130,7 @@ const sketches = [
   {
     name: "my first looping sketch",
     description: "",
-    show: true,
+    show: false,
     setup(p) {},
 
     // So we know how long to make the gif
@@ -163,11 +165,41 @@ const sketches = [
       p.text(t.toFixed(2), 20, 160);
     },
   },
+  // One sketch
+  {
+    name: "my test sketch",
+    show: true,
+    description: "an empty container for you to copy",
+    setup(p) {
+      p.background(50);
+    },
+
+    draw(p) {
+      p.background(50);
+
+      // let t = p.millis()*.001
+      let t = p.frameCount;
+
+      for (var i = 0; i < 10; i++) {
+        let x = t * 10;
+        let y = 10 + 30 * i;
+        
+        // Add interesting motion
+        y += 40*Math.sin(x*.03)
+        
+        let rad = 30;
+        x = (x - 100) % (p.width + 200);
+
+        p.noStroke();
+        p.circle(x, y, rad);
+      }
+    },
+  },
 
   // One sketch
   {
     name: "empty sketch",
-    show: true,
+    show: false,
     description: "an empty container for you to copy",
     setup(p) {},
 
