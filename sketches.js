@@ -168,20 +168,22 @@ const sketches = [
   // One sketch
   {
     name: "my test sketch",
-    show: true,
+    show: false,
     description: "an empty container for you to copy",
     setup(p) {
       p.background(50);
     },
 
     draw(p) {
-      p.background(50);
+      p.background(0, 0, 50, .01);
 
       // let t = p.millis()*.001
       let t = p.frameCount;
 
       for (var i = 0; i < 10; i++) {
-        let x = t * 10;
+        let hue = 320
+        
+        let x = t * 10 + i*10;
         let y = 10 + 30 * i;
         
         // Add interesting motion
@@ -189,13 +191,53 @@ const sketches = [
         
         let rad = 30;
         x = (x - 100) % (p.width + 200);
-
+    
+        
+        // Draw shadow circle
         p.noStroke();
+        p.fill(0, 0, 0, .2)
+        p.circle(x, y + 10, rad*1.1);
+        
+        // Draw main circle
+        p.noStroke();
+        p.fill(hue, 100, 100 - 10*i)
         p.circle(x, y, rad);
+        
+        // Text!
+        p.text("💖", x, y)
+      
       }
+      
+      // Draw last, be on top
+      
+      p.fill(0, 0, 0, .4)
+      p.text("Dr Kate", 10, 105)
+      
+      p.fill(0)
+      p.textSize(40)
+      p.stroke(100)
+      p.strokeWeight(5)
+      p.text("Dr Kate", 10, 100)
+      
+      
     },
   },
 
+  
+  // One sketch
+  {
+    name: "empty sketch",
+    show: true,
+    description: "an empty container for you to copy",
+    setup(p) {},
+
+    draw(p) {
+      
+      p.circle(0, 0, 10)
+      
+    },
+  },
+  
   // One sketch
   {
     name: "empty sketch",
