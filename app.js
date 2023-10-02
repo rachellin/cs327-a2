@@ -1,4 +1,4 @@
-console.log("Hello, World")
+console.log("Hello, sasdfasdfa")
 
 document.addEventListener("DOMContentLoaded", (event) => {
 	console.log("DOM fully loaded and parsed");
@@ -59,8 +59,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 			
 			// For each sketch, make a p5 instance
 			this.activeSketches.forEach((sketch,index) => {
-				let el = document.getElementById('p5-holder')
-
+			
 				new p5(p => {
 					p.frameRate(30)
 

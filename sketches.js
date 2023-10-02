@@ -23,6 +23,8 @@ function ease(t) {
     return .5 - .5*Math.cos(t * Math.PI);
 }
 
+
+// =================================================
 const sketches = [
 {
 	name: "my first sketch",
