@@ -1,93 +1,92 @@
-/**
- * Starter code
- * Create N swatches
- * Each swatch has code for when it starts and each frame after
- */
+console.log("Hello, World")
 
-window.addEventListener("load", function () {
-  console.log("LOADED")
-  let swatchHolderEl = document.getElementById("swatch-holder");
+document.addEventListener("DOMContentLoaded", (event) => {
+	console.log("DOM fully loaded and parsed");
 
-  // Function to add an element to a parent element
-  // for my own convenience
-  function createElement(type, classList, parentEl, innerHTML) {
-    let el = document.createElement(type);
-    el.classList.add(classList);
-    parentEl.appendChild(el);
-    // Add inner HTML
-    if (innerHTML) el.innerHTML = innerHTML;
-    return el;
-  }
+  // We have all the elements, get one with id "app"
 
-  // Create all of the swatches here
-  animations.forEach((animation) => {
-    if (animation.isActive) {
-      
-      // Add a new div to hold the swatch
-      let swatchEl = createElement("div", "swatch", swatchHolderEl);
+	new Vue({
+		template: `<div id="app">
 
-      // Create a P5 canvas element, JS-style
-      // https://github.com/processing/p5.js/wiki/p5.js-overview#instantiation--namespace
-      const s = (p) => {
-        p.setup = function () {
-          p.createCanvas(SWATCH_SIZE, SWATCH_SIZE);
-          p.colorMode(p.HSL, 360, 100, 100);
-          p.ellipseMode(p.CENTER_RADIUS);
-          animation.setup(p);
-        };
 
-        p.draw = function () {
-          let t = p.millis() * 0.001;
-          animation.draw(p, t);
-        };
-      };
+		<main>
 
-      let myp5 = new p5(s, swatchEl);
+		<section class="sketch-holder" :style="holderStyle">
+		
+		<!-- make a div with title and description for each sketch -->
+		<div v-for="(sketch, index) in activeSketches" class="sketch">
 
-      // Add the label underneath
-      // Add a new div to hold the label
-      let labelEl = createElement("div", "label", swatchEl);
+			<!-- Title for this sketch -->
+			<h4>{{sketch.name}}</h4>
 
-      // Add a new h2 tag to hold the title
-      let titleEl = createElement("h2", "title", labelEl, animation.title);
+			<!-- the P5 instance goes in here -->
+			<div :ref="'canvas' + index" />
 
-      // Add a new p to hold the description
-      let descEl = createElement(
-        "p",
-        "description",
-        labelEl,
-        animation.description
-      );
+			<!-- Description for this sketch -->
+			<p class="description">{{sketch.description}}</p>
 
-      // Uncomment these lines for a playful look
-      // let rotation = (Math.random() - .5)*20
-      // swatchEl.style.transform = `rotate(${rotation}deg)`
-    }
-  });
+			<!-- Press this button to save the sketch -->
+			<button @click="saveSketch(sketch)">💾</button>
+
+		</div>
+
+		</section>
+
+
+		</main>
+
+
+
+		</div>`,
+		methods: {
+			saveSketch(sketch) {
+				sketch.p.saveGif(sketch.name + ".gif", sketch.loopLength || DEFAULT_LOOP_LENGTH_IN_FRAMES, {units:"frames"})
+			}
+		},
+		computed: {
+			activeSketches() {
+				return this.sketches.filter(s => s.show)
+			},
+
+			holderStyle() {
+				return {
+					"grid-template-columns": `repeat(auto-fill, minmax(${WIDTH}px, 1fr))`
+				}
+			}
+		},
+
+		mounted() {
+			
+			// For each sketch, make a p5 instance
+			this.activeSketches.forEach((sketch,index) => {
+				let el = document.getElementById('p5-holder')
+
+				new p5(p => {
+					p.frameRate(30)
+
+  				// We have a new "p" object representing the sketch
+					sketch.p = p
+
+					p.setup = () => {
+						let dim = [WIDTH, HEIGHT]
+						p.createCanvas(...dim)
+
+						p.colorMode(p.HSL)
+						p.background(100, 100, 50)
+
+						sketch.setup?.(p)
+
+					}
+
+					p.draw = () => sketch.draw(p)
+
+				}, this.$refs["canvas" + index][0])
+			})
+		},
+
+		data() {
+			return {sketches}
+		}, 
+		el: "#app"
+	})
 });
-
-
-//=========================================
-// Utility functions
-// Given a processing object, a pct around the circle, a radius, and an offset (optional)
-function getLoopingNoise({
-	p,
-	loopPct,
-	radius,
-	offset = 0
-}) {
-
-  // This number should go from 0 to 1 every loopLength seconds
-  // And PI*2 radians every loopLength seconds
-
-  let theta = 2 * Math.PI * loopPct
-
-  // Place to sample the noise from
-  let x = radius * Math.cos(theta)
-  let y = radius * Math.sin(theta)
-
-  let noiseVal = p.noise(x + 100, y + 30, offset)
-
-  return noiseVal
-}
-
