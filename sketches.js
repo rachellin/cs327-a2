@@ -4,52 +4,48 @@ const DEFAULT_FRAME_RATE = 30;
 const DEFAULT_LOOP_LENGTH_IN_FRAMES = 100;
 
 function drawClock(p, pct, size) {
-
-	p.fill(100)
-	p.noStroke()
-	p.circle(0, 0, size)
-	p.fill(0)
-	p.arc(0, 0, size, size, 0, pct*Math.PI*2);
-
+  p.fill(100);
+  p.noStroke();
+  p.circle(0, 0, size);
+  p.fill(0);
+  p.arc(0, 0, size, size, 0, pct * Math.PI * 2);
 }
 
 function drawInformation(p, t, otherData) {
-	p.textFont('Roboto Mono', 20);  // Here 'Roboto' is the name of the font and 32 is the font size
-	
-	let x = 10
-	let y = 30
-	p.text("loop time:" + t.toFixed(2), x, 30)
-	otherData.forEach((text, index) => {
-		p.text(text, x, y + 30*(index + 1))
-	})
-	
-	// Draw a clock face
-	p.push()
-	p.translate(p.width - 30, 30)
-	drawClock(p, t, 30)
-	p.pop()
+  p.textFont("Roboto Mono", 20); // Here 'Roboto' is the name of the font and 32 is the font size
 
+  let x = 10;
+  let y = 30;
+  p.text("loop time:" + t.toFixed(2), x, 30);
+  otherData.forEach((text, index) => {
+    p.text(text, x, y + 30 * (index + 1));
+  });
+
+  // Draw a clock face
+  p.push();
+  p.translate(p.width - 30, 30);
+  drawClock(p, t, 30);
+  p.pop();
 }
 
 // Three useful functions for animations
 function pingpong(t) {
-	// Return a number from 0 to 1
-	// t=0 => 0
-	// t=.5 => 1
-	// t=1 => 0
-	return 1 - Math.abs((t*2 % 2) - 1);
+  // Return a number from 0 to 1
+  // t=0 => 0
+  // t=.5 => 1
+  // t=1 => 0
+  return 1 - Math.abs(((t * 2) % 2) - 1);
 }
 
 function pingpongEased(t) {
-	// Same as pingpong, but it eases in and out
-    return .5 - .5*Math.cos(t * Math.PI);
+  // Same as pingpong, but it eases in and out
+  return 0.5 - 0.5 * Math.cos(t * Math.PI);
 }
 
 function ease(t) {
-	// Ease just from 0 to 1 (the first half of pingpong)
-    return .5 - .5*Math.cos(.5*t * Math.PI);
+  // Ease just from 0 to 1 (the first half of pingpong)
+  return 0.5 - 0.5 * Math.cos(0.5 * t * Math.PI);
 }
-
 
 // =================================================
 const sketches = [
@@ -276,264 +272,248 @@ const sketches = [
 
     draw(p) {},
   },
+
+  {
+    name: "my first looping sketch",
+    description: "",
+    show: false,
+    setup(p) {},
+
+    // So we know how long to make the gif
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
+
+    draw(p) {
+      // If you set t to a number that loops from 0 to 1,
+      // and you use functions where the value for 0 and 1 are the same (the pingpong functions above)
+      // Then it will loop
+      // You can also use cyclical values, like hue, which wraps around
+
+      let t = (p.frameCount / this.loopLength) % 1;
+
+      let hue = t * 360;
+      p.background(hue, 100, 50);
+
+      // Pingpong returns a
+      let squareSize = pingpong(t);
+
+      let w = squareSize * WIDTH;
+      let h = squareSize * HEIGHT;
+
+      p.rect(0, 0, w, h);
+
+      p.strokeWeight(10);
+      p.stroke(100);
+
+      p.textSize(20);
+      p.text("how far through the loop are we?", 20, 60, 200);
+
+      p.textSize(50);
+      p.text(t.toFixed(2), 20, 160);
+    },
+  },
+
+  {
+    name: "Loop - rotation",
+    show: false,
+    description: "Rotate all the way around",
+    setup(p) {},
+
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
+
+    draw(p) {
+      p.background(90);
+
+      // Where are we in the loop?
+      let t = (p.frameCount / this.loopLength) % 1;
+      // Turn that into an angle in radians (2PI is a full rotation)
+      let angle = t * Math.PI * 2;
+
+      // Move to the center of the sketch
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
+
+      let rotationRadius = 100;
+      let circleRadius = 30;
+
+      p.noStroke();
+
+      // Rotate with P5 transformations
+      p.push();
+      p.rotate(angle);
+      p.fill(60);
+      p.rect(rotationRadius, 0, circleRadius * 2);
+      p.circle(rotationRadius, 0, circleRadius * 2);
+
+      p.stroke(60);
+      p.line(0, 0, rotationRadius, 0);
+
+      p.fill(0);
+      p.textSize(16);
+      p.text("this rotates the alignment", rotationRadius - 40, 0, 150);
+
+      p.pop();
+
+      // Rotate with polar coordinates
+      let x = rotationRadius * Math.cos(angle + Math.PI / 2);
+      let y = rotationRadius * Math.sin(angle + Math.PI / 2);
+      p.fill(100);
+      p.stroke(60);
+
+      p.line(0, 0, x, y);
+      p.rect(x, y, circleRadius);
+      p.circle(x, y, circleRadius);
+
+      p.fill(0);
+      p.textSize(16);
+      p.text("this rotates the position and not the alignment", x, y, 150);
+
+      p.pop();
+
+      // Output information about where we are in the loop
+      drawInformation(p, t, [
+        "angle:    " + angle.toFixed(2),
+        "angle(π): " + (angle / Math.PI).toFixed(2),
+      ]);
+    },
+  },
   
-  
-  
-{
-	name: "my first looping sketch",
-	description: "",
-	show: false,
-	setup(p) {
+  {
+    name: "Text repetition",
+    show: true,
+    description: "",
+    setup(p) {},
 
-	},
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
 
-	// So we know how long to make the gif
-	loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES, 
-	
-	draw(p) {
-		
-		// If you set t to a number that loops from 0 to 1,
-		// and you use functions where the value for 0 and 1 are the same (the pingpong functions above)
-		// Then it will loop
-		// You can also use cyclical values, like hue, which wraps around
+    draw(p) {
+      p.background(90);
+      let text = "How to make stuff look good"
+      let techniques = ["symmetry", "repetition", "variation", "contrast", "gradual change"]
+      p.push()
+      p.translate(p.width/2, p.height/2)
+      p.textAlign(p.CENTER)
+      p.text(text, 0, 0)
+      
+      techniques.forEach((item,index) => {
+         p.text(item, 0, index*20 - 20)
+      })
+      
+      p.pop()
+    },
+  },
+  //===================================================================
+  {
+    name: "Loop - color",
+    show: false,
+    description: "Rotate all the way around the color wheel",
+    setup(p) {},
 
-		let t = (p.frameCount/this.loopLength)%1
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
 
-		let hue = t*360
-		p.background(hue, 100, 50)
-		
-		// Pingpong returns a 
-		let squareSize = pingpong(t)
-		
-		let w = squareSize*WIDTH
-		let h = squareSize*HEIGHT
+    draw(p) {
+      p.background(90);
 
-		p.rect(0, 0, w, h)
+      // Where are we in the loop?
+      let t = (p.frameCount / this.loopLength) % 1;
+      // Turn that into an angle in radians (2PI is a full rotation)
+      let angle = t * Math.PI * 2;
+      let hue = t * 360;
 
-		p.strokeWeight(10)
-		p.stroke(100)
-		
-		p.textSize(20)
-		p.text("how far through the loop are we?", 20, 60, 200)
+      // Move to the center of the sketch
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
 
-		p.textSize(50)
-		p.text(t.toFixed(2), 20, 160)
-	}
-},
+      // Draw the color wheel
+      let slices = 10;
+      let arcSize = 200;
+      p.noStroke();
+      for (var i = 0; i < slices; i++) {
+        let a0 = (Math.PI * 2 * i) / slices + Math.PI / 2;
+        let a1 = (Math.PI * 2 * (i + 1)) / slices + Math.PI / 2;
+        let hue = (360 * (i + 1)) / slices;
+        p.fill(hue, 100, 50);
+        p.arc(0, 0, arcSize, arcSize, a0, a1);
+      }
 
+      let rotationRadius = 100;
+      let circleRadius = 30;
 
+      // Rotate with polar coordinates
+      let x = rotationRadius * Math.cos(angle + Math.PI / 2);
+      let y = rotationRadius * Math.sin(angle + Math.PI / 2);
+      p.fill(hue, 100, 50);
+      p.stroke(hue, 100, 30);
 
-{
-	name: "Loop - rotation",
-	show: false,
-	description: "Rotate all the way around",
-	setup(p) {
+      p.line(0, 0, x, y);
+      p.circle(x, y, circleRadius);
 
-	},
+      p.pop();
 
-	loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES, 
-	
-	draw(p) {
+      // Output information about where we are in the loop
+      drawInformation(p, t, ["hue:    " + hue.toFixed(0)]);
+    },
+  },
 
-		p.background(90)
+  {
+    name: "Loop - going offscreen",
+    show: false,
+    description: "Move offscreen, then onscreen at a different location",
+    setup(p) {},
 
-		// Where are we in the loop?
-		let t = (p.frameCount/this.loopLength)%1
-		// Turn that into an angle in radians (2PI is a full rotation)
-		let angle = t*Math.PI*2
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
 
-		
-		// Move to the center of the sketch
-		p.push()
-		p.translate(p.width/2, p.height/2)
+    draw(p) {
+      p.background(90);
 
-		let rotationRadius = 100
-		let circleRadius = 30
+      // Where are we in the loop?
+      let t = (p.frameCount / this.loopLength) % 1;
+      // Turn that into an angle in radians (2PI is a full rotation)
+      let angle = t * Math.PI * 2;
+      let hue = t * 360;
 
-		p.noStroke()
+      let border = 20;
 
+      let count = 100;
+      for (var i = 0; i < count; i++) {
+        let xPct = (t + i * 0.12) % 1;
+        let x = p.map(xPct, 0, 1, -border, p.width + border);
+        // The y position, like the x, changes
+        let yPct = (t + i * 0.19) % 1;
+        let y = p.map(yPct, 0, 1, -border, p.height + border);
+        y += 20 * Math.sin(i * 2 + angle);
 
-		// Rotate with P5 transformations
-		p.push()
-		p.rotate(angle)
-		p.fill(60)
-		p.rect(rotationRadius, 0, circleRadius*2)
-		p.circle(rotationRadius, 0, circleRadius*2)
-		
-		p.stroke(60)
-		p.line(0, 0, rotationRadius, 0)
+        p.fill(100);
+        if (i === 0) p.fill(0, 100, 50);
+        p.circle(x, y, 10);
+      }
 
-		p.fill(0)
-		p.textSize(16)
-		p.text("this rotates the alignment", rotationRadius - 40, 0, 150)
+      // Output information about where we are in the loop
+      drawInformation(p, t, []);
+    },
+  },
 
-		p.pop()
+  {
+    name: "Loop - sinewave",
+    show: true,
+    description: "Use the sinewave to go back and forth",
+    setup(p) {},
 
-		// Rotate with polar coordinates
-		let x = rotationRadius*Math.cos(angle + Math.PI/2)
-		let y = rotationRadius*Math.sin(angle + Math.PI/2)
-		p.fill(100)
-		p.stroke(60)
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
 
-		p.line(0, 0, x, y)
-		p.rect(x, y, circleRadius)
-		p.circle(x, y, circleRadius)
-		
-		p.fill(0)
-		p.textSize(16)
-		p.text("this rotates the position and not the alignment", x, y, 150)
-		
-		p.pop()
+    draw(p) {
+      p.background(90);
 
+      // Where are we in the loop?
+      let t = (p.frameCount / this.loopLength) % 1;
+      // Turn that into an angle in radians (2PI is a full rotation)
+      let angle = t * Math.PI * 2;
 
+      let x = 100 * Math.sin(angle) + p.width / 2;
+      let y = 100 * Math.sin(angle * 3) + p.width / 2;
+      p.circle(x, y, 100);
 
-		// Output information about where we are in the loop
-		drawInformation(p, t, ["angle:    " + angle.toFixed(2), "angle(π): " + (angle/Math.PI).toFixed(2)])
-		
-
-	}
-},
-//=======================
-{
-	name: "Loop - color",
-	show: false,
-	description: "Rotate all the way around the color wheel",
-	setup(p) {
-
-	},
-
-	loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES, 
-	
-	draw(p) {
-
-		p.background(90)
-
-		// Where are we in the loop?
-		let t = (p.frameCount/this.loopLength)%1
-		// Turn that into an angle in radians (2PI is a full rotation)
-		let angle = t*Math.PI*2
-		let hue = t*360
-
-		
-		// Move to the center of the sketch
-		p.push()
-		p.translate(p.width/2, p.height/2)
-
-		// Draw the color wheel
-		let slices = 10
-		let arcSize = 200
-		p.noStroke()
-		for (var i = 0; i < slices; i++) {
-
-			let a0 = Math.PI*2*(i)/slices + Math.PI/2
-			let a1 = Math.PI*2*(i + 1)/slices + Math.PI/2
-			let hue = 360*(i + 1)/slices
-			p.fill(hue, 100, 50)
-			p.arc(0, 0, arcSize, arcSize, a0, a1);
-
-		}
-
-		let rotationRadius = 100
-		let circleRadius = 30
-
-		// Rotate with polar coordinates
-		let x = rotationRadius*Math.cos(angle + Math.PI/2)
-		let y = rotationRadius*Math.sin(angle + Math.PI/2)
-		p.fill(hue, 100, 50)
-		p.stroke(hue, 100, 30)
-
-		p.line(0, 0, x, y)
-		p.circle(x, y, circleRadius)
-		
-		
-		
-		p.pop()
-
-
-		// Output information about where we are in the loop
-		drawInformation(p, t, ["hue:    " + hue.toFixed(0)])
-		
-
-
-	}
-},
-
-{
-	name: "Loop - going offscreen",
-	show: false,
-	description: "Move offscreen, then onscreen at a different location",
-	setup(p) {
-
-	},
-
-	loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES, 
-	
-	draw(p) {
-
-		p.background(90)
-
-		// Where are we in the loop?
-		let t = (p.frameCount/this.loopLength)%1
-		// Turn that into an angle in radians (2PI is a full rotation)
-		let angle = t*Math.PI*2
-		let hue = t*360
-
-		let border = 20
-		
-		
-		let count = 100
-		for (var i = 0; i < count; i++) {
-			let xPct = (t + i*.12)%1
-			let x = p.map(xPct, 0, 1, -border, p.width + border)
-			// The y position, like the x, changes 
-			let yPct = (t + i*.19)%1
-			let y = p.map(yPct, 0, 1, -border, p.height + border)
-			y += 20*Math.sin(i*2 + angle)
-			
-
-			p.fill(100)
-			if (i === 0)
-				p.fill(0, 100, 50)
-			p.circle(x, y, 10)
-		}
-		
-
-		// Output information about where we are in the loop
-		drawInformation(p, t, [])
-		
-
-
-	}
-},
-  
-{
-	name: "Loop - sinewave",
-	show: true,
-	description: "Use the sinewave to go back and forth",
-	setup(p) {
-
-	},
-
-	loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES, 
-	
-	draw(p) {
-
-		p.background(90)
-
-		// Where are we in the loop?
-		let t = (p.frameCount/this.loopLength)%1
-		// Turn that into an angle in radians (2PI is a full rotation)
-		let angle = t*Math.PI*2
-	
-		let x = 100*Math.sin(angle) + p.width/2
-    let y = 100*Math.sin(angle*3) + p.width/2
-    p.circle(x, y, 100)
-
-		// Output information about where we are in the loop
-		drawInformation(p, t, ["sin(angle)", Math.sin(angle).toFixed(3)])
-		
-
-
-	}
-},
+      // Output information about where we are in the loop
+      drawInformation(p, t, ["sin(angle)", Math.sin(angle).toFixed(3)]);
+    },
+  },
 ];
