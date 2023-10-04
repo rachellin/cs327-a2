@@ -247,21 +247,18 @@ const sketches = [
   // One sketch
   {
     name: "repetition and symmetry",
-    show: true,
+    show: false,
     description: "Exploring transformation",
     setup(p) {},
     loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
 
-
     draw(p) {
       // Options for time
       // let t = p.millis()*.001 // Does not work with Gif
-      let t = p.frameCount /this.loopLength
-     
-      
+      let t = p.frameCount / this.loopLength;
+
       p.background(50);
-      
-      
+
       p.push();
       p.translate(150, 150);
       // p.circle(0, 0, 50);
@@ -291,38 +288,73 @@ const sketches = [
           p.push();
           p.rotate(angle);
 
-          p.ellipse(x, y, 50, 20);
+          // p.ellipse(x, y, 50, 20);
+
+          p.textSize(100);
+          p.translate(x, y);
+          p.rotate(0.3 * Math.sin(i * 10));
+          p.text("🍂", 0, 0);
 
           p.pop();
         }
       }
-        
-      let flowerCount = 3
+
+      let flowerCount = 3;
       for (var i = 0; i < flowerCount; i++) {
-        p.push()
-        let flowerPct = i/(flowerCount - 1)
-        let x = p.map(flowerPct, 0, 1, -100, 100)
-        let y = 50*Math.sin(i+ t*10)
-        
-        p.translate(x, y)
-        p.scale(.6 + .1*Math.sin(i + t*.2))
-        p.rotate(t*10)
-        drawFlower()
-        
-        p.pop()
+        p.push();
+        let flowerPct = i / (flowerCount - 1);
+        let x = p.map(flowerPct, 0, 1, -100, 100);
+        let y = 50 * Math.sin(i + t * 10);
+
+        p.translate(x, y);
+        p.scale(0.6 + 0.1 * Math.sin(i + t * 0.2));
+        p.rotate(t * 3);
+        drawFlower();
+
+        p.pop();
       }
       p.pop();
     },
   },
 
+  //   // One sketch
+  //   {
+  //     name: "empty sketch",
+  //     show: false,
+  //     description: "an empty container for you to copy",
+  //     setup(p) {},
+
+  //     draw(p) {},
+  //   },
+
   // One sketch
   {
-    name: "empty sketch",
-    show: false,
-    description: "an empty container for you to copy",
+    name: "ocean",
+    show: true,
+    description: "noise",
     setup(p) {},
 
-    draw(p) {},
+    draw(p) {
+      let t = p.millis() * 0.001;
+      p.background(180, 100, 90);
+      let count = 100;
+    
+      p.beginShape()  
+      for (var i = 0; i < count; i++) {
+        let pct = i / (count - 1);
+        let x = p.map(pct, 0, 1, 0, p.width);
+        // let y = 100 + 100*Math.sin(pct*Math.PI*2 + t)
+        
+        // p.noiseDetail(2, 5)
+        let y = 100 + 150 * p.noise(pct, t);
+        // p.circle(x, y, 10)
+        p.vertex(x, y)
+      }
+      
+      p.vertex(p.width, 500)
+      p.vertex(0, 500)
+      p.endShape()
+    },
   },
 
   {
