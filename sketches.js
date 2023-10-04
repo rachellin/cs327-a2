@@ -337,23 +337,55 @@ const sketches = [
     draw(p) {
       let t = p.millis() * 0.001;
       p.background(180, 100, 90);
-      let count = 100;
-    
-      p.beginShape()  
-      for (var i = 0; i < count; i++) {
-        let pct = i / (count - 1);
-        let x = p.map(pct, 0, 1, 0, p.width);
-        // let y = 100 + 100*Math.sin(pct*Math.PI*2 + t)
-        
-        // p.noiseDetail(2, 5)
-        let y = 100 + 150 * p.noise(pct, t);
-        // p.circle(x, y, 10)
-        p.vertex(x, y)
+
+      function drawWave(offset) {
+        let count = 100;
+
+        p.beginShape();
+        for (var i = 0; i < count; i++) {
+          let pct = i / (count - 1);
+          let x = p.map(pct, 0, 1, 0, p.width);
+          // let y = 100 + 100*Math.sin(pct*Math.PI*2 + t)
+
+          // p.noiseDetail(2, 5)
+          let y = 100 + 150 * p.noise(pct, t + offset);
+          // p.circle(x, y, 10)
+          p.vertex(x, y);
+        }
+
+        p.vertex(p.width, 500);
+        p.vertex(0, 500);
+        p.endShape();
       }
       
-      p.vertex(p.width, 500)
-      p.vertex(0, 500)
-      p.endShape()
+      for (var i = 0; i < 10; i ++) {
+        let hue = 190
+        p.fill(hue, 100, 50 - i*3, .3)
+        p.stroke(hue, 100, 90, .3)
+        p.push()
+        p.translate(0, -50 + i*10)
+        drawWave(i)
+        p.pop()
+        
+      }
+      
+       
+      let count = 30
+      for (var i = 0; i < count; i ++) {
+        let pctX = i/(count -1)
+         for (var j = 0; j < count; j++) {
+         let pctY = j/(count -1)
+         
+         let x = pctX*p.width
+         let y = pctY*p.height
+         
+         let scale = .02
+        let hue = 360*p.noise(x*scale, y*scale, t)
+        p.fill(hue, 100, 50)
+         p.circle(x, y, 20)
+        
+      }
+      }
     },
   },
 
