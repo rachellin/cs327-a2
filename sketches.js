@@ -250,35 +250,67 @@ const sketches = [
     show: true,
     description: "Exploring transformation",
     setup(p) {},
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
+
 
     draw(p) {
-      p.background(50)
+      // Options for time
+      // let t = p.millis()*.001 // Does not work with Gif
+      let t = p.frameCount /this.loopLength
+     
+      
+      p.background(50);
+      
+      
       p.push();
       p.translate(150, 150);
       // p.circle(0, 0, 50);
 
-      let count = 50;
-      for (var i = 0; i < count; i++) {
-        let x = 0;
-        let y = 0;
-        
-        // pct goes from 0 to 1
-        let pct = i/(count - 1)
-        
-        // number from -100, 100
-        // let y = p.map(pct, 0, 1, -100, 100)
-        
-        let hue = p.map(pct, 0, 1, 320, 170)
-        p.fill(hue, 100, 50)
-        p.strokeWeight(10)
-        p.stroke(hue, 100, 70)
-        
-        
-        
-        p.circle(x, y, 50);
-        
-      }
+      function drawFlower() {
+        let count = 18;
+        for (var i = 0; i < count; i++) {
+          // Draw each petal rotated
 
+          let petalRadius = 50;
+          let x = petalRadius;
+          let y = 0;
+
+          // pct goes from 0 to 1
+          let pct = i / (count - 1);
+
+          // number from -100, 100
+          // let y = p.map(pct, 0, 1, -100, 100)
+
+          let hue = p.map(pct, 0, 1, 0, 360);
+          p.fill(hue, 100, 50);
+          p.strokeWeight(10);
+          p.stroke(hue, 100, 70);
+
+          let angle = p.map(pct, 0, 1, 0, Math.PI * 2);
+
+          p.push();
+          p.rotate(angle);
+
+          p.ellipse(x, y, 50, 20);
+
+          p.pop();
+        }
+      }
+        
+      let flowerCount = 3
+      for (var i = 0; i < flowerCount; i++) {
+        p.push()
+        let flowerPct = i/(flowerCount - 1)
+        let x = p.map(flowerPct, 0, 1, -100, 100)
+        let y = 50*Math.sin(i+ t*10)
+        
+        p.translate(x, y)
+        p.scale(.6 + .1*Math.sin(i + t*.2))
+        p.rotate(t*10)
+        drawFlower()
+        
+        p.pop()
+      }
       p.pop();
     },
   },
