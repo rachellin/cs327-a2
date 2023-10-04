@@ -392,7 +392,7 @@ const sketches = [
       p.push()
       p.translate(p.width/2, p.height/2)
       p.textAlign(p.CENTER)
-      p.text(text, 0, 0)
+      p.text(text, 0, -50)
       
       techniques.forEach((item,index) => {
          p.text(item, 0, index*20 - 20)
