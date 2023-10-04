@@ -246,20 +246,40 @@ const sketches = [
 
   // One sketch
   {
-    name: "empty sketch",
+    name: "repetition and symmetry",
     show: true,
-    description: "an empty container for you to copy",
+    description: "Exploring transformation",
     setup(p) {},
 
     draw(p) {
-      for (var i = 0; i < 10; i++) {
-        p.push();
-        p.translate(150, 150);
-        // Radians
-        p.rotate(i);
-        p.ellipse(0, 0, 30, 70);
-        p.pop();
+      p.background(50)
+      p.push();
+      p.translate(150, 150);
+      // p.circle(0, 0, 50);
+
+      let count = 50;
+      for (var i = 0; i < count; i++) {
+        let x = 0;
+        let y = 0;
+        
+        // pct goes from 0 to 1
+        let pct = i/(count - 1)
+        
+        // number from -100, 100
+        // let y = p.map(pct, 0, 1, -100, 100)
+        
+        let hue = p.map(pct, 0, 1, 320, 170)
+        p.fill(hue, 100, 50)
+        p.strokeWeight(10)
+        p.stroke(hue, 100, 70)
+        
+        
+        
+        p.circle(x, y, 50);
+        
       }
+
+      p.pop();
     },
   },
 
@@ -376,7 +396,7 @@ const sketches = [
       ]);
     },
   },
-  
+
   {
     name: "Text repetition",
     show: true,
@@ -387,18 +407,24 @@ const sketches = [
 
     draw(p) {
       p.background(90);
-      let text = "How to make stuff look good"
-      let techniques = ["symmetry", "repetition", "variation", "contrast", "gradual change"]
-      p.push()
-      p.translate(p.width/2, p.height/2)
-      p.textAlign(p.CENTER)
-      p.text(text, 0, -50)
-      
-      techniques.forEach((item,index) => {
-         p.text(item, 0, index*20 - 20)
-      })
-      
-      p.pop()
+      let text = "How to make stuff look good";
+      let techniques = [
+        "symmetry",
+        "repetition",
+        "variation",
+        "contrast",
+        "gradual change",
+      ];
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
+      p.textAlign(p.CENTER);
+      p.text(text, 0, -50);
+
+      techniques.forEach((item, index) => {
+        p.text(item, 0, index * 20 - 20);
+      });
+
+      p.pop();
     },
   },
   //===================================================================
@@ -494,7 +520,7 @@ const sketches = [
 
   {
     name: "Loop - sinewave",
-    show: true,
+    show: false,
     description: "Use the sinewave to go back and forth",
     setup(p) {},
 
