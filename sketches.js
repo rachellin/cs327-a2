@@ -317,15 +317,15 @@ const sketches = [
     },
   },
 
-    // One sketch
-    {
-      name: "empty sketch",
-      show: false,
-      description: "an empty container for you to copy",
-      setup(p) {},
+  // One sketch
+  {
+    name: "empty sketch",
+    show: false,
+    description: "an empty container for you to copy",
+    setup(p) {},
 
-      draw(p) {},
-    },
+    draw(p) {},
+  },
 
   // One sketch
   {
@@ -459,7 +459,7 @@ const sketches = [
 
   {
     name: "Loop - graphs",
-    show: true,
+    show: false,
     description: "Rotate all the way around",
     setup(p) {},
 
@@ -494,8 +494,8 @@ const sketches = [
         let y = (1 - fxn(pct)) * p.height;
         p.circle(x, y, 10);
       });
-      
-      p.fill(0)
+
+      p.fill(0);
       // Output information about where we are in the loop
       drawInformation(p, t, [
         "angle:    " + angle.toFixed(2),
@@ -506,7 +506,7 @@ const sketches = [
 
   {
     name: "Loop - rotation",
-    show: true,
+    show: false,
     description: "Rotate all the way around",
     setup(p) {},
 
@@ -623,7 +623,7 @@ const sketches = [
 
   {
     name: "Loop - going offscreen",
-    show: true,
+    show: false,
     description:
       "Move offscreen, then onscreen at a different location. Either go fully offscreen before changing position (think of a border around the screen) or have two copies a screen-width apart",
     setup(p) {},
@@ -645,13 +645,12 @@ const sketches = [
       p.stroke(0);
       let count = 100;
       for (var i = 0; i < count; i++) {
-        
         let xPct = (t + i * 0.12) % 1;
         let x = p.map(xPct, 0, 1, -border, p.width + border);
         // The y position, like the x, changes
-        let yPct = (t + i * 0.19) % 1;
+        let yPct = (t + i * 0.39) % 1;
         let y = p.map(yPct, 0, 1, -border, p.height + border);
-        y += 20 * Math.sin(i * 2 + angle);
+        // y += 20 * Math.sin(i * 2 + angle);
         // y = 100
         p.fill(50);
         if (i === 0) p.fill(0, 100, 50);
@@ -675,6 +674,7 @@ const sketches = [
 
       let x = t * p.width;
       p.text("Go off one side and\nappear on the other", x - p.width, 100);
+      // p.fill(100, 100, 50)
       p.text("Go off one side and\nappear on the other", x, 100);
 
       p.pop();
@@ -687,7 +687,7 @@ const sketches = [
 
   {
     name: "Loop - sinewave",
-    show: true,
+    show: false,
     description:
       "Use the sinewave to go back and forth. A sinewave will return to the same point in π radians, but only to the same velocity in 2*π. Use it to drive motion, size, rotation, color or any other value",
     setup(p) {},
@@ -742,14 +742,42 @@ const sketches = [
       drawInformation(p, t, ["sin(angle): " + Math.sin(angle).toFixed(3)]);
     },
   },
-  
-    // One sketch
-    {
-      name: "Loop - Move to next",
-      show: false,
-      description: "an empty container for you to copy",
-      setup(p) {},
 
-      draw(p) {},
+  // One sketch
+  {
+    name: "Loop - Move to next",
+    show: true,
+    description: "an empty container for you to copy",
+    setup(p) {},
+
+    draw(p) {
+      // Where are we in the loop?
+      let t = (p.frameCount / this.loopLength) % 1;
+      // Turn that into an angle in radians (2PI is a full rotation)
+      let angle = t * Math.PI * 2;
+      let delta = t * Math.PI * 2;
+      
+      p.push()
+      // Move to the center
+      p.translate(p.width/2, p.height/2)
+      let count = 10
+      for (var i= 0; i< count; i++) {
+        let pct = i/count
+        p.circle(0, 0, 10)
+        
+        
+        
+        let angle0 = pct*Math.PI*2 
+        angl 
+        p.push()
+        // WE ARE IN RADIANS
+        p.rotate(angle0)
+        p.line(0, 0, 100, 0)
+        p.circle(100, 0, 10)
+        p.pop()
+      }
+      
+      p.pop()
     },
+  },
 ];
