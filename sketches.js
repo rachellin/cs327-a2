@@ -12,13 +12,13 @@ function drawClock(p, pct, size) {
 }
 
 function drawInformation(p, t, otherData) {
-  p.textFont("Roboto Mono", 20); // Here 'Roboto' is the name of the font and 32 is the font size
+  p.textFont("Roboto Mono", 14); // Here 'Roboto' is the name of the font and 32 is the font size
 
   let x = 10;
-  let y = 30;
-  p.text("loop time:" + t.toFixed(2), x, 30);
+  let y = 15;
+  p.text("loop time:" + t.toFixed(2), x, y);
   otherData.forEach((text, index) => {
-    p.text(text, x, y + 30 * (index + 1));
+    p.text(text, x, y + 15 * (index + 1));
   });
 
   // Draw a clock face
@@ -39,12 +39,12 @@ function pingpong(t) {
 
 function pingpongEased(t) {
   // Same as pingpong, but it eases in and out
-  return 0.5 - 0.5 * Math.cos(t * Math.PI);
+  return 0.5 - 0.5 * Math.cos(2 * t * Math.PI);
 }
 
 function ease(t) {
   // Ease just from 0 to 1 (the first half of pingpong)
-  return 0.5 - 0.5 * Math.cos(0.5 * t * Math.PI);
+  return 0.5 - 0.5 * Math.cos(t * Math.PI);
 }
 
 // =================================================
@@ -317,20 +317,20 @@ const sketches = [
     },
   },
 
-  //   // One sketch
-  //   {
-  //     name: "empty sketch",
-  //     show: false,
-  //     description: "an empty container for you to copy",
-  //     setup(p) {},
+    // One sketch
+    {
+      name: "empty sketch",
+      show: false,
+      description: "an empty container for you to copy",
+      setup(p) {},
 
-  //     draw(p) {},
-  //   },
+      draw(p) {},
+    },
 
   // One sketch
   {
     name: "ocean",
-    show: true,
+    show: false,
     description: "noise",
     setup(p) {},
 
@@ -357,37 +357,66 @@ const sketches = [
         p.vertex(0, 500);
         p.endShape();
       }
-      
-      for (var i = 0; i < 10; i ++) {
-        let hue = 190
-        p.fill(hue, 100, 50 - i*3, .3)
-        p.stroke(hue, 100, 90, .3)
-        p.push()
-        p.translate(0, -50 + i*10)
-        drawWave(i)
-        p.pop()
-        
+
+      for (var i = 0; i < 10; i++) {
+        let hue = 190;
+        p.fill(hue, 100, 50 - i * 3, 0.3);
+        p.stroke(hue, 100, 90, 0.3);
+        p.push();
+        p.translate(0, -50 + i * 10);
+        drawWave(i);
+        p.pop();
       }
-      
-       
-      let count = 30
-      for (var i = 0; i < count; i ++) {
-        let pctX = i/(count -1)
-         for (var j = 0; j < count; j++) {
-         let pctY = j/(count -1)
-         
-         let x = pctX*p.width
-         let y = pctY*p.height
-         
-         let scale = .02
-        let hue = 360*p.noise(x*scale, y*scale, t)
-        p.fill(hue, 100, 50)
-         p.circle(x, y, 20)
-        
-      }
+
+      let count = 30;
+      for (var i = 0; i < count; i++) {
+        let pctX = i / (count - 1);
+        for (var j = 0; j < count; j++) {
+          let pctY = j / (count - 1);
+
+          let x = pctX * p.width;
+          let y = pctY * p.height;
+
+          let scale = 0.02;
+          let hue = 360 * p.noise(x * scale, y * scale, t);
+          p.fill(hue, 100, 50);
+          p.circle(x, y, 20);
+        }
       }
     },
   },
+
+  {
+    name: "Text repetition",
+    show: false,
+    description: "",
+    setup(p) {},
+
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
+
+    draw(p) {
+      p.background(90);
+      let text = "How to make stuff look good";
+      let techniques = [
+        "symmetry",
+        "repetition",
+        "variation",
+        "contrast",
+        "gradual change",
+      ];
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
+      p.textAlign(p.CENTER);
+      p.text(text, 0, -50);
+
+      techniques.forEach((item, index) => {
+        p.text(item, 0, index * 20 - 20);
+      });
+
+      p.pop();
+    },
+  },
+  //===================================================================
 
   {
     name: "my first looping sketch",
@@ -429,8 +458,54 @@ const sketches = [
   },
 
   {
+    name: "Loop - graphs",
+    show: true,
+    description: "Rotate all the way around",
+    setup(p) {},
+
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
+
+    draw(p) {
+      p.background(90);
+
+      // Where are we in the loop?
+      let t = (p.frameCount / this.loopLength) % 1;
+      // Turn that into an angle in radians (2PI is a full rotation)
+      let angle = t * Math.PI * 2;
+
+      let count = 31;
+
+      let fxns = [pingpong, pingpongEased];
+      fxns.forEach((fxn) => {
+        p.noFill();
+        p.beginShape();
+        for (var i = 0; i < count; i++) {
+          let pct = i / (count - 1);
+          let x = pct * p.width;
+          let y = (1 - fxn(pct)) * p.height;
+          p.vertex(x, y);
+        }
+        p.endShape();
+      });
+
+      fxns.forEach((fxn, index) => {
+        let pct = (index * 0.5 + t) % 1;
+        let x = pct * p.width;
+        let y = (1 - fxn(pct)) * p.height;
+        p.circle(x, y, 10);
+      });
+
+      // Output information about where we are in the loop
+      drawInformation(p, t, [
+        "angle:    " + angle.toFixed(2),
+        "angle(π): " + (angle / Math.PI).toFixed(2),
+      ]);
+    },
+  },
+
+  {
     name: "Loop - rotation",
-    show: false,
+    show: true,
     description: "Rotate all the way around",
     setup(p) {},
 
@@ -494,37 +569,6 @@ const sketches = [
   },
 
   {
-    name: "Text repetition",
-    show: true,
-    description: "",
-    setup(p) {},
-
-    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
-
-    draw(p) {
-      p.background(90);
-      let text = "How to make stuff look good";
-      let techniques = [
-        "symmetry",
-        "repetition",
-        "variation",
-        "contrast",
-        "gradual change",
-      ];
-      p.push();
-      p.translate(p.width / 2, p.height / 2);
-      p.textAlign(p.CENTER);
-      p.text(text, 0, -50);
-
-      techniques.forEach((item, index) => {
-        p.text(item, 0, index * 20 - 20);
-      });
-
-      p.pop();
-    },
-  },
-  //===================================================================
-  {
     name: "Loop - color",
     show: false,
     description: "Rotate all the way around the color wheel",
@@ -578,8 +622,9 @@ const sketches = [
 
   {
     name: "Loop - going offscreen",
-    show: false,
-    description: "Move offscreen, then onscreen at a different location",
+    show: true,
+    description:
+      "Move offscreen, then onscreen at a different location. Either go fully offscreen before changing position (think of a border around the screen) or have two copies a screen-width apart",
     setup(p) {},
 
     loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
@@ -593,8 +638,10 @@ const sketches = [
       let angle = t * Math.PI * 2;
       let hue = t * 360;
 
-      let border = 20;
+      let border = -20;
 
+      p.strokeWeight(1);
+      p.stroke(0);
       let count = 100;
       for (var i = 0; i < count; i++) {
         let xPct = (t + i * 0.12) % 1;
@@ -604,20 +651,43 @@ const sketches = [
         let y = p.map(yPct, 0, 1, -border, p.height + border);
         y += 20 * Math.sin(i * 2 + angle);
 
-        p.fill(100);
+        p.fill(50);
         if (i === 0) p.fill(0, 100, 50);
         p.circle(x, y, 10);
       }
 
+      // Fade the frame in and out
+      let opacity = 0.5 + 0.7 * Math.sin(angle);
+      p.textSize(12);
+      p.stroke(100, opacity);
+      p.noFill();
+      p.strokeWeight(50);
+      p.rect(0, 0, p.width, p.height);
+      p.noStroke();
+      p.fill(0, opacity);
+      p.text("Hide where geometry goes off screen", 10, 290);
+
+      p.push();
+      p.fill(0);
+      p.textSize(20);
+
+      let x = t * p.width;
+      p.text("Go off one side and\nappear on the other", x - p.width, 100);
+      p.text("Go off one side and\nappear on the other", x, 100);
+
+      p.pop();
+
       // Output information about where we are in the loop
+      p.fill(0);
       drawInformation(p, t, []);
     },
   },
 
   {
     name: "Loop - sinewave",
-    show: false,
-    description: "Use the sinewave to go back and forth",
+    show: true,
+    description:
+      "Use the sinewave to go back and forth. A sinewave will return to the same point in π radians, but only to the same velocity in 2*π. Use it to drive motion, size, rotation, color or any other value",
     setup(p) {},
 
     loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
@@ -630,12 +700,54 @@ const sketches = [
       // Turn that into an angle in radians (2PI is a full rotation)
       let angle = t * Math.PI * 2;
 
-      let x = 100 * Math.sin(angle) + p.width / 2;
-      let y = 100 * Math.sin(angle * 3) + p.width / 2;
-      p.circle(x, y, 100);
+      p.push();
+      p.translate(p.width / 2, p.height / 2);
+
+      p.textSize(12);
+      // Formula for a circle
+      let x0 = 40 * Math.cos(angle);
+      let y0 = 40 * Math.sin(angle);
+
+      p.fill(50 + 50 * Math.cos(angle));
+      p.circle(x0, y0, 50);
+
+      let x1 = 70 * Math.sin(angle);
+      let y1 = 70 * Math.sin(angle * 3);
+      p.circle(x1, y1, 20);
+
+      let x2 = 50 * Math.sin(angle * 4);
+      let y2 = 50 * Math.sin(angle * 2);
+      p.circle(x2, y2, 20);
+
+      let x3 = 120 * Math.sin(angle / 2);
+      let y3 = 130;
+      p.circle(x3, y3, 20);
+      let x4 = 120 * Math.sin(angle);
+      let y4 = 100;
+      p.circle(x4, y4, 20);
+
+      p.fill(0);
+      p.text("Use sin and cos\nto make a circle", -140 + x0, y0);
+      p.text("a half-cycle feels like a bounce", -110, 120);
+      p.text("a whole cycle slows and stops", -130, 90);
+
+      p.textAlign(p.RIGHT);
+      p.text("Multiply the angle by a\nwhole number to go faster", 110, -80);
+
+      p.pop();
 
       // Output information about where we are in the loop
-      drawInformation(p, t, ["sin(angle)", Math.sin(angle).toFixed(3)]);
+      drawInformation(p, t, ["sin(angle): " + Math.sin(angle).toFixed(3)]);
     },
   },
+  
+    // One sketch
+    {
+      name: "Loop - Move to next",
+      show: false,
+      description: "an empty container for you to copy",
+      setup(p) {},
+
+      draw(p) {},
+    },
 ];
