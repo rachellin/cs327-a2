@@ -749,35 +749,66 @@ const sketches = [
     show: true,
     description: "an empty container for you to copy",
     setup(p) {},
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
 
     draw(p) {
+      p.background(80)
       // Where are we in the loop?
       let t = (p.frameCount / this.loopLength) % 1;
       // Turn that into an angle in radians (2PI is a full rotation)
       let angle = t * Math.PI * 2;
-      let delta = t * Math.PI * 2;
       
       p.push()
       // Move to the center
       p.translate(p.width/2, p.height/2)
       let count = 10
-      for (var i= 0; i< count; i++) {
-        let pct = i/count
-        p.circle(0, 0, 10)
-        
-        
-        
-        let angle0 = pct*Math.PI*2 
-        angl 
-        p.push()
-        // WE ARE IN RADIANS
-        p.rotate(angle0)
-        p.line(0, 0, 100, 0)
-        p.circle(100, 0, 10)
-        p.pop()
+      
+      let circleCount = 10
+      for (var j = 0; j < circleCount; j++) {
+        for (var i= 0; i< count; i++) {
+          let pct = i/count
+         
+          let delta = j* t * Math.PI * 2 / count;
+      
+
+          let angle0 = pct*Math.PI*2 + j 
+          angle0 += delta
+          let radius = j*20 + 30
+
+          p.push()
+          // WE ARE IN RADIANS
+          p.rotate(angle0)
+          // p.line(0, 0, radius, 0)
+          p.fill(100)
+          // if (i == 0)
+          //   p.fill(0, 100, 50)
+          p.circle(radius, 0, 10)
+          
+          // Interesting shape
+          
+          p.fill(150, 100, 50, .3)
+          p.beginShape()
+          p.vertex(radius, 0)
+          
+          
+          p.vertex(radius*1.2, radius*.3)
+          p.curveVertex(radius*1.2, -radius*.3)
+           p.curveVertex(radius*1.2 + j*10, -radius*.3 + j*10 + 120*Math.sin(j + 10*t))
+            p.curveVertex(radius*5 + j*10, -radius*.3 + j*10 + 120*Math.sin(j + 10*t))
+          p.vertex(radius*1.2, radius*.3)
+          
+          p.endShape()
+          
+          p.pop()
+
+          
+
+        }
       }
       
       p.pop()
+      drawInformation(p, t, []);
+   
     },
   },
 ];
