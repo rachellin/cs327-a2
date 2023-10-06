@@ -480,7 +480,7 @@ const sketches = [
         p.noFill();
         p.beginShape();
         for (var i = 0; i < count; i++) {
-          let pct = i / (count - 1);
+          let pct = i / (count - 1); // 0- 1
           let x = pct * p.width;
           let y = (1 - fxn(pct)) * p.height;
           p.vertex(x, y);
@@ -494,7 +494,8 @@ const sketches = [
         let y = (1 - fxn(pct)) * p.height;
         p.circle(x, y, 10);
       });
-
+      
+      p.fill(0)
       // Output information about where we are in the loop
       drawInformation(p, t, [
         "angle:    " + angle.toFixed(2),
@@ -644,13 +645,14 @@ const sketches = [
       p.stroke(0);
       let count = 100;
       for (var i = 0; i < count; i++) {
+        
         let xPct = (t + i * 0.12) % 1;
         let x = p.map(xPct, 0, 1, -border, p.width + border);
         // The y position, like the x, changes
         let yPct = (t + i * 0.19) % 1;
         let y = p.map(yPct, 0, 1, -border, p.height + border);
         y += 20 * Math.sin(i * 2 + angle);
-
+        // y = 100
         p.fill(50);
         if (i === 0) p.fill(0, 100, 50);
         p.circle(x, y, 10);
@@ -706,7 +708,7 @@ const sketches = [
       p.textSize(12);
       // Formula for a circle
       let x0 = 40 * Math.cos(angle);
-      let y0 = 40 * Math.sin(angle);
+      let y0 = 04 * Math.sin(angle);
 
       p.fill(50 + 50 * Math.cos(angle));
       p.circle(x0, y0, 50);
