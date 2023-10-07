@@ -110,8 +110,17 @@ const sketches = [
       p.fill(hue2, 100, 50);
       p.circle(x2, y2, circleRadius2);
       
+      
       // circle 3
-
+      let x3 = p.width * (0.3 + 0.1 * Math.sin((t + Math.PI) * 3)); // Adjust position to the left
+      let y3 = p.height * (0.5 + 0.5 * Math.cos((t + Math.PI) * 0.75)); // Adjust position to the left
+      let hue3 = ((t * 50) + 90) % 360; // Shift hue for the third circle (90 degrees)
+      let circleRadius3 = 60 * p.noise(t - 200); // Use a different seed for the third circle's noise
+      
+      p.strokeWeight(5);
+      p.stroke(hue2, 100, 20);
+      p.fill(hue2, 100, 50);
+      p.circle(x3, y3, circleRadius3);
       
     },
   },
