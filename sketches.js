@@ -84,50 +84,9 @@ const sketches = [
     },
 
     draw(p) {
-      // Each frame, draw a light gray background
-      // p.background(0, 0, 80)
-      // Or a semi transparent background (NOTE TRY THIS IT'S COOL)
-      p.background(0, 0, 80, 0.1);
-      // Or no background? Try commenting these background lines
-      // on and off and see how they change
-
-      let t = p.frameCount * 0.05;
-
-      // We can use "parametric equations" to drive movment over time
-      // If we have one "t" value, and equations for x and y that depend on it
-      // then as we increase t, those equations will draw a path over time
-
-      // Some Khan videos on parametric curves
-      // https://www.youtube.com/watch?v=m6c6dlmUT1c
-      // https://www.youtube.com/watch?v=bb4bSCjlFAw
-
-      // You can make good art with them, especially with *polar* curves
-      // https://www.youtube.com/watch?v=Y2T31OQ-cWA
-
-      // You can also change the speed by
-      //multiplying by it by different numbers
-      // t *= 4
-      // t *= .4
-
-      // let x = p.width * (0.5 + 0.5 * Math.sin(t * 2));
-      // let y = p.width * (0.5 + 0.5 * Math.cos(t * 1.71));
+      for (let i = 0; i < 5)
       
-      let x = Math.sin(t) * (Math.E**cos(t) - 2 * cos(4*t) - Math.sin**5(t/12))
-      let y = Math.cos(t) * (Math.E**cos(t) - 2 * cos(4*t) - Math.sin**5(t/12))
       
-      console.log(x)
-
-
-      // If we save a color for the hue,
-      // we can use it for both the fill and the stroke
-      // so we can have a circle with an outline of a darker color
-      // which looks nice
-      let hue = (t * 50) % 360;
-      let circleRadius = 60 * p.noise(t);
-      p.strokeWeight(5);
-      p.stroke(hue, 100, 20);
-      p.fill(hue, 100, 50);
-      p.circle(x, y, circleRadius);
     },
   },
   
