@@ -245,7 +245,8 @@ const sketches = [
       let w = squareSize * WIDTH;
       let h = squareSize * HEIGHT;
 
-      p.rect(0, 0, w, h);
+      //p.rect(0, 0, w, h);
+      p.circle(0, 0, w);
 
       p.strokeWeight(10);
       p.stroke(100);
