@@ -109,8 +109,14 @@ const sketches = [
       // t *= 4
       // t *= .4
 
-      let x = p.width * (0.5 + 0.5 * Math.sin(t * 2));
-      let y = p.width * (0.5 + 0.5 * Math.cos(t * 1.71));
+      // let x = p.width * (0.5 + 0.5 * Math.sin(t * 2));
+      // let y = p.width * (0.5 + 0.5 * Math.cos(t * 1.71));
+      
+      let x = Math.sin(t) * (Math.E**cos(t) - 2 * cos(4*t) - Math.sin**5(t/12))
+      let y = Math.cos(t) * (Math.E**cos(t) - 2 * cos(4*t) - Math.sin**5(t/12))
+      
+      console.log(x)
+
 
       // If we save a color for the hue,
       // we can use it for both the fill and the stroke
