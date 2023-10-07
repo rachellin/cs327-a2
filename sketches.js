@@ -84,8 +84,34 @@ const sketches = [
     },
 
     draw(p) {
-      for (let i = 0; i < 5)
+      p.background(0, 0, 80, 0.1);
+
+      let t = p.frameCount * 0.05;
+
+      let x = p.width * (0.5 + 0.05 * Math.sin(t * 5));
+      let y = p.width * (0.5 + 0.5 * Math.cos(t * 0.75));
       
+
+      let hue = (t * 50) % 360;
+      let circleRadius = 60 * p.noise(t);
+      p.strokeWeight(5);
+      p.stroke(hue, 100, 20);
+      p.fill(hue, 100, 50);
+      p.circle(x, y, circleRadius);
+      
+      // circle 2
+      let x2 = p.width * (0.7 + 0.1 * Math.sin((t - Math.PI*1.5) * 3));
+      let y2 = p.height * (0.5 + 0.5 * Math.cos((t - Math.PI*1.5) * 0.75));
+      let hue2 = ((t * 50) + 180) % 360; // Shift hue for the second circle
+      let circleRadius2 = 60 * p.noise(t + 100); // Use a different seed for the second circle's noise
+      
+      p.strokeWeight(5);
+      p.stroke(hue2, 100, 20);
+      p.fill(hue2, 100, 50);
+      p.circle(x2, y2, circleRadius2);
+      
+      // circle 3
+
       
     },
   },
