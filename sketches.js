@@ -125,6 +125,45 @@ const sketches = [
     },
   },
   
+  {
+    name: "my first looping sketch",
+    description: "",
+    show: true,
+    setup(p) {},
+
+    // So we know how long to make the gif
+    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
+
+    draw(p) {
+      // If you set t to a number that loops from 0 to 1,
+      // and you use functions where the value for 0 and 1 are the same (the pingpong functions above)
+      // Then it will loop
+      // You can also use cyclical values, like hue, which wraps around
+
+      let t = (p.frameCount / this.loopLength) % 1;
+
+      let hue = t * 360; 
+      p.background(hue, 100, 50);
+
+      // Pingpong returns a
+      let squareSize = pingpong(t);
+
+      let w = squareSize * WIDTH;
+      let h = squareSize * HEIGHT;
+
+      p.rect(0, 0, w, h);
+
+      p.strokeWeight(10);
+      p.stroke(100);
+
+      p.textSize(20);
+      p.text("how far through the loop are we?", 20, 60, 200);
+
+      p.textSize(50);
+      p.text(t.toFixed(2), 20, 160);
+    },
+  },
+  
   // below are kate's sketches
   
   {
