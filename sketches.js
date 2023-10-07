@@ -50,6 +50,28 @@ function ease(t) {
 // =================================================
 const sketches = [
   {
+    name: "sketch 1",
+    show: true,
+
+    draw(p) {
+      p.background(0)
+      // Get time in SECONDS
+      let t = p.millis() * 0.001;
+      let hue = (t * 100) % 360;
+      p.strokeWeight(5);
+      p.stroke(hue, 100, 20);
+      p.fill(hue, 100, 50);
+      let circleRadius = Math.random() * 40 + 20;
+      let x = Math.random() * p.width;
+      let y = Math.random() * p.height;
+
+      p.circle(x, y, circleRadius);
+      //p.rect(x, y, circleRadius, circleRadius);
+      
+    },
+  },
+  // below are kate's sketches
+  {
     name: "my first sketch",
     show: true,
 
