@@ -51,7 +51,7 @@ function ease(t) {
 const sketches = [
   {
     name: "my first sketch",
-    show: false,
+    show: true,
 
     draw(p) {
       // Get time in SECONDS
@@ -155,7 +155,7 @@ const sketches = [
   {
     name: "my first looping sketch",
     description: "",
-    show: false,
+    show: true,
     setup(p) {},
 
     // So we know how long to make the gif
@@ -193,7 +193,7 @@ const sketches = [
   // One sketch
   {
     name: "my test sketch",
-    show: false,
+    show: true,
     description: "an empty container for you to copy",
     setup(p) {
       p.background(50);
@@ -320,7 +320,7 @@ const sketches = [
   // One sketch
   {
     name: "empty sketch",
-    show: false,
+    show: true,
     description: "an empty container for you to copy",
     setup(p) {},
 
@@ -330,7 +330,7 @@ const sketches = [
   // One sketch
   {
     name: "ocean",
-    show: false,
+    show: true,
     description: "noise",
     setup(p) {},
 
@@ -388,7 +388,7 @@ const sketches = [
 
   {
     name: "Text repetition",
-    show: false,
+    show: true,
     description: "",
     setup(p) {},
 
@@ -421,7 +421,7 @@ const sketches = [
   {
     name: "my first looping sketch",
     description: "",
-    show: false,
+    show: true,
     setup(p) {},
 
     // So we know how long to make the gif
@@ -459,7 +459,7 @@ const sketches = [
 
   {
     name: "Loop - graphs",
-    show: false,
+    show: true,
     description: "Rotate all the way around",
     setup(p) {},
 
@@ -506,7 +506,7 @@ const sketches = [
 
   {
     name: "Loop - rotation",
-    show: false,
+    show: true,
     description: "Rotate all the way around",
     setup(p) {},
 
@@ -571,7 +571,7 @@ const sketches = [
 
   {
     name: "Loop - color",
-    show: false,
+    show: true,
     description: "Rotate all the way around the color wheel",
     setup(p) {},
 
@@ -623,7 +623,7 @@ const sketches = [
 
   {
     name: "Loop - going offscreen",
-    show: false,
+    show: true,
     description:
       "Move offscreen, then onscreen at a different location. Either go fully offscreen before changing position (think of a border around the screen) or have two copies a screen-width apart",
     setup(p) {},
@@ -687,7 +687,7 @@ const sketches = [
 
   {
     name: "Loop - sinewave",
-    show: false,
+    show: true,
     description:
       "Use the sinewave to go back and forth. A sinewave will return to the same point in π radians, but only to the same velocity in 2*π. Use it to drive motion, size, rotation, color or any other value",
     setup(p) {},
