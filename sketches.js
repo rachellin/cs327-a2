@@ -168,15 +168,36 @@ const sketches = [
     name: "sketch 4",
     description: "",
     show: true,
-    setup(p) {},
+    setup(p) {
+      centerX = p.width / 2;
+      centerY = p.height / 2;
+    },
     draw(p) {
-        for (let i = 0; i < 10; i++) {
-          let binaryValue = i%2;
-          p.textSize(16);
-          p.fill(255);
-          //p.textAlign(CENTER, CENTER);
-          p.text(1, 25+(5*i), 25+(5*i));
-        }
+      let numObjects = 10;
+      let angleIncrement = 360 / numObjects;
+      let radius = 100;
+      
+      for (let i = 0; i < numObjects; i++) {
+        // Calculate the position of the object using trigonometry
+        let x = centerX + radius * Math.cos(i * angleIncrement);
+        let y = centerY + radius * Math.sin(i * angleIncrement);
+
+        // Draw the object (in this case, a circle)
+        p.fill(0);
+        p.ellipse(x, y, 20, 20);
+        
+        
+      }
+      
+      // for (let i = 0; i < 10; i++) {
+      //     let binaryValue = i%2;
+      //     p.textSize(16);
+      //     p.fill(255);
+      //     //p.textAlign(CENTER, CENTER);
+      //     p.text(binaryValue, 25+(10*i), 25+(10*i));
+      //   }
+      
+        
     },
   },
   
@@ -779,7 +800,13 @@ const sketches = [
           p.fill(100)
           // if (i == 0)
           //   p.fill(0, 100, 50)
-          p.circle(radius, 0, 10)
+          //p.circle(radius, 0, 10)
+          
+          let binaryValue = j%2;
+          p.textSize(16)
+          p.fill(255)
+          p.text(binaryValue, 25+(10*i), 25+(10*i))
+          
           
           // Interesting shape
           
