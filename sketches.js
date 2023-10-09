@@ -181,7 +181,7 @@ const sketches = [
       p.ellipse(p.width / 2, p.height / 2, this.circleRadius * 2, this.circleRadius * 2);
       p.ellipse(p.width/2, p.height/2, this.circleRadius * 4, this.circleRadius * 4);
       this.circleRadius *= zoomFactor;
-      print(this.c)
+     
         
     },
   },
