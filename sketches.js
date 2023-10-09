@@ -126,7 +126,7 @@ const sketches = [
   },
   
   {
-    name: "my first looping sketch",
+    name: "sketch 3",
     description: "",
     show: true,
     setup(p) {},
@@ -164,100 +164,45 @@ const sketches = [
     },
   },
   
-  // below are kate's sketches
-  
   {
-    name: "my first animating sketch",
-    show: false,
-
-    setup(p) {
-      // Setup only happens once.
-      // We can use it to start off our canvas with a particular color
-      p.background(0, 0, 80);
-    },
-
-    draw(p) {
-      // Each frame, draw a light gray background
-      // p.background(0, 0, 80)
-      // Or a semi transparent background (NOTE TRY THIS IT'S COOL)
-      p.background(0, 0, 80, 0.1);
-      // Or no background? Try commenting these background lines
-      // on and off and see how they change
-
-      let t = p.frameCount * 0.05;
-
-      // We can use "parametric equations" to drive movment over time
-      // If we have one "t" value, and equations for x and y that depend on it
-      // then as we increase t, those equations will draw a path over time
-
-      // Some Khan videos on parametric curves
-      // https://www.youtube.com/watch?v=m6c6dlmUT1c
-      // https://www.youtube.com/watch?v=bb4bSCjlFAw
-
-      // You can make good art with them, especially with *polar* curves
-      // https://www.youtube.com/watch?v=Y2T31OQ-cWA
-
-      // You can also change the speed by
-      //multiplying by it by different numbers
-      // t *= 4
-      // t *= .4
-
-      let x = p.width * (0.5 + 0.5 * Math.sin(t * 2));
-      let y = p.width * (0.5 + 0.5 * Math.cos(t * 1.71));
-
-      // If we save a color for the hue,
-      // we can use it for both the fill and the stroke
-      // so we can have a circle with an outline of a darker color
-      // which looks nice
-      let hue = (t * 50) % 360;
-      let circleRadius = 60 * p.noise(t);
-      p.strokeWeight(5);
-      p.stroke(hue, 100, 20);
-      p.fill(hue, 100, 50);
-      p.circle(x, y, circleRadius);
-    },
-  },
-
-  // One sketch
-  {
-    name: "my first looping sketch",
+    name: "sketch 4",
     description: "",
     show: true,
-    setup(p) {},
+    setup(p) {
+      createCanvas(400, 400);
+      angleMode(DEGREES);
+      angleStep = 360 / numPoints;
+    },
 
-    // So we know how long to make the gif
-    loopLength: DEFAULT_LOOP_LENGTH_IN_FRAMES,
 
     draw(p) {
-      // If you set t to a number that loops from 0 to 1,
-      // and you use functions where the value for 0 and 1 are the same (the pingpong functions above)
-      // Then it will loop
-      // You can also use cyclical values, like hue, which wraps around
+      console.log("sketch 4")
+      p.background(0);
+      translate(p.width / 2, p.height / 2);
 
-      let t = (p.frameCount / this.loopLength) % 1;
+      for (let i = 0; i < numPoints; i++) {
+          let x = cos(i * angleStep) * radius;
+          let y = sin(i * angleStep) * radius;
+          let z = (sin(frameCount * rotationSpeed + i * angleStep) + 1) * 0.5 * p.tunnelDepth;
 
-      let hue = t * 360;
-      p.background(hue, 100, 50);
+          // Map z to 1s and 0s
+          let binaryValue = floor(map(z, 0, tunnelDepth, 0, 2));
 
-      // Pingpong returns a
-      let squareSize = pingpong(t);
-
-      let w = squareSize * WIDTH;
-      let h = squareSize * HEIGHT;
-
-      //p.rect(0, 0, w, h);
-      p.circle(0, 0, w);
-
-      p.strokeWeight(10);
-      p.stroke(100);
-
-      p.textSize(20);
-      p.text("how far through the loop are we?", 20, 60, 200);
-
-      p.textSize(50);
-      p.text(t.toFixed(2), 20, 160);
+          textSize(16);
+          fill(255);
+          textAlign(CENTER, CENTER);
+          text(binaryValue, x, y);
+      }
     },
   },
+  
+  
+  // below are kate's sketches
+  
+  
+
+  // One sketch
+  
   // One sketch
   {
     name: "my test sketch",
