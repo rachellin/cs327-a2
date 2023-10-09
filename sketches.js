@@ -169,34 +169,17 @@ const sketches = [
     description: "",
     show: true,
     setup(p) {
-      centerX = p.width / 2;
-      centerY = p.height / 2;
+      
     },
     draw(p) {
-      let numObjects = 10;
-      let angleIncrement = 360 / numObjects;
-      let radius = 100;
-      
-      for (let i = 0; i < numObjects; i++) {
-        // Calculate the position of the object using trigonometry
-        let x = centerX + radius * Math.cos(i * angleIncrement);
-        let y = centerY + radius * Math.sin(i * angleIncrement);
-
-        // Draw the object (in this case, a circle)
-        p.fill(0);
-        p.ellipse(x, y, 20, 20);
-        
-        
+      p.background(220)
+      let circleRadius = 200;
+      let zoomFactor = 0.95; // The factor by which the circle size will decrease
+      let minRadius = 5; // The minimum radius at which the zooming stops
+      while (circleRadius > minRadius) {
+          p.ellipse(p.width / 2, p.height / 2, circleRadius * 2, circleRadius * 2);
+          circleRadius *= zoomFactor;
       }
-      
-      // for (let i = 0; i < 10; i++) {
-      //     let binaryValue = i%2;
-      //     p.textSize(16);
-      //     p.fill(255);
-      //     //p.textAlign(CENTER, CENTER);
-      //     p.text(binaryValue, 25+(10*i), 25+(10*i));
-      //   }
-      
         
     },
   },
