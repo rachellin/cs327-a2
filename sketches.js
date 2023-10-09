@@ -171,15 +171,17 @@ const sketches = [
     setup(p) {
       
     },
+    circleRadius: 200,
+    numCircles: 0,
     draw(p) {
       p.background(220)
-      let circleRadius = 200;
+
       let zoomFactor = 0.95; // The factor by which the circle size will decrease
-      let minRadius = 5; // The minimum radius at which the zooming stops
-      while (circleRadius > minRadius) {
-          p.ellipse(p.width / 2, p.height / 2, circleRadius * 2, circleRadius * 2);
-          circleRadius *= zoomFactor;
-      }
+      //let minRadius = 5; // The minimum radius at which the zooming stops
+      p.ellipse(p.width / 2, p.height / 2, this.circleRadius * 2, this.circleRadius * 2);
+      p.ellipse(p.width/2, p.height/2, this.circleRadius * 4, this.circleRadius * 4);
+      this.circleRadius *= zoomFactor;
+      print(this.c)
         
     },
   },
