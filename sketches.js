@@ -168,31 +168,15 @@ const sketches = [
     name: "sketch 4",
     description: "",
     show: true,
-    setup(p) {
-      createCanvas(400, 400);
-      angleMode(DEGREES);
-      angleStep = 360 / numPoints;
-    },
-
-
+    setup(p) {},
     draw(p) {
-      console.log("sketch 4")
-      p.background(0);
-      translate(p.width / 2, p.height / 2);
-
-      for (let i = 0; i < numPoints; i++) {
-          let x = cos(i * angleStep) * radius;
-          let y = sin(i * angleStep) * radius;
-          let z = (sin(frameCount * rotationSpeed + i * angleStep) + 1) * 0.5 * p.tunnelDepth;
-
-          // Map z to 1s and 0s
-          let binaryValue = floor(map(z, 0, tunnelDepth, 0, 2));
-
-          textSize(16);
-          fill(255);
-          textAlign(CENTER, CENTER);
-          text(binaryValue, x, y);
-      }
+        for (let i = 0; i < 10; i++) {
+          let binaryValue = i%2;
+          p.textSize(16);
+          p.fill(255);
+          //p.textAlign(CENTER, CENTER);
+          p.text(1, 25+(5*i), 25+(5*i));
+        }
     },
   },
   
